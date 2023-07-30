@@ -16,6 +16,5 @@ data class Asteroid(
  * kilometers_per_second:               "18.127936605"
  * astronomical:                        "0.3027469593"
  */
-
 // [ close_approach_data ] -> { relative_velocity } -> < kilometers_per_second >
 // [ close_approach_data ] -> {   miss_distance   } -> <     astronomical      >

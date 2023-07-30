@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- linear layout used since views are simply stacked vertically -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    tools:context=".screens.MainScreen">
+
+    <!-- FrameLayout holding ImageView and Text -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- ImageView for displaying ImageOfTheDay  -->
+        <ImageView
+            android:id="@+id/imageOfTheDay"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/image_of_the_day"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <!-- TextView for describing image being displayed -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/image_of_the_day"
+            android:textStyle="bold"
+            android:background="@color/black_transparent"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp" />
+    </FrameLayout>
+
+    <!-- RecyclerView for diplaying undefined length of list items -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/asteroidRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical" >
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
