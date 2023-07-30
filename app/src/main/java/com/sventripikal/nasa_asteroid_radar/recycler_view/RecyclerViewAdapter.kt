@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 // adapter implementing RecyclerView.Adapter
@@ -25,7 +28,7 @@ class RecyclerViewAdapter(
     private lateinit var asteroidNameTextView: TextView
 
 
-    // inflate recycler item view and return ViewHolder
+    // inflate layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
 
         // inflate item view
@@ -37,7 +40,7 @@ class RecyclerViewAdapter(
     }
 
 
-    // update views within root view by referencing IDs
+    // bind/update views within root view by referencing IDs
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
 
         // get views by ID
@@ -62,15 +65,30 @@ class RecyclerViewAdapter(
     // assigns asteroid info to views
     private fun assignInfoToViews() {
 
-        // assign asteroid name
+        // assign TextView asteroid name
         asteroidNameTextView.text = asteroid.id
 
-        // temp string [get current date function needed here]
-        // assign current date
-        currentDateTextView.text = "07/30/2023"
+        // assign TextView current date
+        currentDateTextView.text = getCurrentDateString()
 
-        // set icon/color by asteroid hazard potential
+        // assign ImageView icon/color by asteroid hazard potential
         setHazardPotentialIcon()
+    }
+
+    // returns current date as formatted string
+    private fun getCurrentDateString(): String {
+
+        // create calendar instance
+        val calendar = Calendar.getInstance()
+
+        // get date string pattern from strings.xml
+        val dateStringPattern = context.getString(R.string.mm_dd_yyyy)
+
+        // create formatter with date string pattern
+        val formatter = SimpleDateFormat(dateStringPattern, Locale.getDefault())
+
+        // return formatted date as string
+        return formatter.format(calendar.time).toString()
     }
 
 
@@ -79,13 +97,13 @@ class RecyclerViewAdapter(
 
         when (asteroid.isPotentiallyHazardousAsteroid) {
 
-            // hazardous
+            // hazardous - red
             true -> {
                 iconImageView.setImageResource(R.drawable.round_sentiment_very_dissatisfied_24)
                 iconImageView.setColorFilter(ContextCompat.getColor(context, R.color.red))
             }
 
-            // non-hazardous
+            // non-hazardous - green
             false -> {
                 iconImageView.setImageResource(R.drawable.round_sentiment_very_satisfied_24)
                 iconImageView.setColorFilter(ContextCompat.getColor(context, R.color.green))
