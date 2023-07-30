@@ -24,6 +24,7 @@ android {
 
     // bindings
     buildFeatures {
+        viewBinding = true
         dataBinding = true
     }
 
@@ -47,6 +48,10 @@ dependencies {
     // ViewModel    [persistence object of config changes]
     val viewModelVersion = "2.6.1"
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion")
+
+    // RecyclerView [lazy column/row/grid viewLayout]
+    val recyclerViewVersion = "1.3.1"
+    implementation("androidx.recyclerview:recyclerview:$recyclerViewVersion")
 
     // SafeArgs [navigation component]
     val navigationVersion = "2.6.0"

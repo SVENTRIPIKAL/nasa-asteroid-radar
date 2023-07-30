@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">nasa-asteroid-radar</string>
+    <string name="image_indicating_danger_state_of_asteroid">Image indicating danger state of asteroid</string>
 </resources>
