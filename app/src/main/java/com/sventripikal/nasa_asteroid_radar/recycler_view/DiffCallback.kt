@@ -7,7 +7,7 @@ import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 // class implementing DiffUtil - checks for differences in list items
 class DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
 
-    // checks if item data are equal
+    // checks if item data is equal
     override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem.id == newItem.id
     }

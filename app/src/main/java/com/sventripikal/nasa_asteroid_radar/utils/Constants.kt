@@ -2,15 +2,33 @@ package com.sventripikal.nasa_asteroid_radar.utils
 
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
+
+// current date format pattern
+private const val DATE_PATTERN_STRING = "yyyy/MM/dd"
+
+// returns current date as formatted string
+fun getCurrentDateString(): String {
+
+    // create calendar instance
+    val calendar = Calendar.getInstance()
+
+    // create formatter with date string pattern
+    val formatter = SimpleDateFormat(DATE_PATTERN_STRING, Locale.getDefault())
+
+    // return formatted date as string
+    return formatter.format(calendar.time).toString()
+}
 
 
 // logging tag
 const val TAG = "_SVENTRIPIKAL"
 
-
 // logging priority enum
 enum class Priority { ERROR, VERBOSE, DEBUG, INFO }
-
 
 // quick timber logging function
 fun timber(tag: String, message: String, priority: Priority) {

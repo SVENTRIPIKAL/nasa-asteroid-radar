@@ -3,5 +3,4 @@
     <string name="image_indicating_danger_state_of_asteroid">Image indicating danger state of asteroid</string>
     <string name="image_of_the_day">Image of the Day</string>
     <string name="asteroid_radar">Asteroid Radar</string>
-    <string name="yyyy_mm_dd">yyyy/MM/dd</string>
 </resources>

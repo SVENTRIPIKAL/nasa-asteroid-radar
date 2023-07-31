@@ -1,76 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- material design card view for list items -->
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- layout used to implement data binding -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Material3.CardView.Outlined"
-    android:id="@+id/recyclerListItem"
-    android:backgroundTint="@color/black"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent"
-    android:layout_marginVertical="2dp"
-    android:clickable="true"
-    android:focusable="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- constraint layout for arranging views -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- data binding object for list item info -->
+    <data>
+        <variable
+            name="asteroid"
+            type="com.sventripikal.nasa_asteroid_radar.models.Asteroid" />
+    </data>
+
+    <!-- material design card view for list item views -->
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Outlined"
+        android:id="@+id/recyclerListItem"
+        android:backgroundTint="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:layout_height="80dp"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent"
+        android:layout_marginVertical="2dp"
+        android:clickable="true"
+        android:focusable="true">
 
-        <!-- textview for displaying asteroid names -->
-        <TextView
-            android:id="@+id/asteroidName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="2dp"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/currentDate"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="2465633" />
+        <!-- constraint layout for arranging views -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <!-- textview for displaying current date -->
-        <TextView
-            android:id="@+id/currentDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/gray"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/asteroidName"
-            tools:text="07/29/2023" />
+            <!-- textview for displaying asteroid name -->
+            <TextView
+                android:id="@+id/asteroidName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/currentDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setAsteroidName="@{asteroid}"
+                tools:text="2465633" />
 
-        <!-- imageview for displaying asteroid danger potential icon -->
-        <ImageView
-            android:id="@+id/dangerStatus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:contentDescription="@string/image_indicating_danger_state_of_asteroid"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/currentDate"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            tools:src="@drawable/round_sentiment_very_dissatisfied_24"
-            tools:tint="@color/red" />
+            <!-- textview for displaying current date -->
+            <TextView
+                android:id="@+id/currentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/gray"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/asteroidName"
+                app:setCurrentDateFormatted="@{asteroid}"
+                tools:text="07/29/2023" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- imageview for displaying asteroid hazard potential icon -->
+            <ImageView
+                android:id="@+id/hazardStatus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/image_indicating_danger_state_of_asteroid"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/currentDate"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                app:setHazardIcon="@{asteroid}"
+                tools:src="@drawable/round_sentiment_very_dissatisfied_24"
+                tools:tint="@color/red" />
 
-</com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>
