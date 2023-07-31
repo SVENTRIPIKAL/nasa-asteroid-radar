@@ -1,5 +1,6 @@
 package com.sventripikal.nasa_asteroid_radar.models
 
+
 data class Asteroid(
     var id: String,
     var absoluteMagnitude: Double,
