@@ -62,6 +62,9 @@ class RecyclerViewAdapter(
     }
 
 
+
+
+
     // assigns asteroid info to views
     private fun assignInfoToViews() {
 

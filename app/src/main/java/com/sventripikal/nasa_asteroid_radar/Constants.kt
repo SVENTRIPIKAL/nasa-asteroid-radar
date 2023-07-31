@@ -1,6 +1,24 @@
 package com.sventripikal.nasa_asteroid_radar
 
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
+import timber.log.Timber
+
+
+
+const val TAG = "_SVENTRIPIKAL"
+
+
+enum class Priority { ERROR, VERBOSE, DEBUG, INFO }
+
+
+fun timber(tag: String, message: String, priority: Priority) {
+    when (priority) {
+        Priority.ERROR -> Timber.tag(tag).e(message)
+        Priority.VERBOSE -> Timber.tag(tag).v(message)
+        Priority.DEBUG -> Timber.tag(tag).d(message)
+        Priority.INFO -> Timber.tag(tag).i(message)
+    }
+}
 
 
 // sample/temp asteroid list
