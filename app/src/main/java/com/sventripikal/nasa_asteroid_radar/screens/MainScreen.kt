@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.FragmentMainScreenBinding
 import com.sventripikal.nasa_asteroid_radar.models.ViewModel
+import com.sventripikal.nasa_asteroid_radar.recycler_view.ItemClickListener
 import com.sventripikal.nasa_asteroid_radar.recycler_view.RecyclerViewAdapter
 
 
@@ -44,7 +46,10 @@ class MainScreen : Fragment() {
 
 
         // create/assign adapter
-        val recyclerViewAdapter = RecyclerViewAdapter()
+        // adapter receives ItemClickListener class to handle click events
+        val recyclerViewAdapter = RecyclerViewAdapter( ItemClickListener {
+            asteroidId -> Toast.makeText(context, asteroidId, Toast.LENGTH_SHORT).show()
+        })
         asteroidRecyclerView.adapter = recyclerViewAdapter
 
 

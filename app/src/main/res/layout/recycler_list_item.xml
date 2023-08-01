@@ -4,14 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- data binding object for list item info -->
+    <!-- asteroid: data binding object holding list item info -->
+    <!-- itemClickListener: class for handling list item clicks -->
     <data>
         <variable
             name="asteroid"
             type="com.sventripikal.nasa_asteroid_radar.models.Asteroid" />
+        
+        <variable
+            name="itemClickListener"
+            type="com.sventripikal.nasa_asteroid_radar.recycler_view.ItemClickListener" />
     </data>
 
     <!-- material design card view for list item views -->
+    <!-- itemClickListener passes item to method when view is clicked -->
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.Material3.CardView.Outlined"
         android:id="@+id/recyclerListItem"
@@ -21,7 +27,8 @@
         app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent"
         android:layout_marginVertical="2dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:onClick="@{() -> itemClickListener.onClick(asteroid)}">
 
         <!-- constraint layout for arranging views -->
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,9 @@ import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 
 
 // adapter implementing ListAdapter<T, VH>( DiffUtil() )
-class RecyclerViewAdapter : ListAdapter<Asteroid, RecyclerViewHolder>( DiffCallback() ) {
+// receives ItemClickListener for handling click events
+class RecyclerViewAdapter(private val clickListener: ItemClickListener)
+    : ListAdapter<Asteroid, RecyclerViewHolder>( DiffCallback() ) {
 
 
     // inflate a layout and return a viewHolder
@@ -24,6 +26,7 @@ class RecyclerViewAdapter : ListAdapter<Asteroid, RecyclerViewHolder>( DiffCallb
         val asteroid = getItem(position)
 
         // bind object info to views from within ViewHolder
-        holder.bind(asteroid)
+        // pass ItemClickListener
+        holder.bind(asteroid, clickListener)
     }
 }

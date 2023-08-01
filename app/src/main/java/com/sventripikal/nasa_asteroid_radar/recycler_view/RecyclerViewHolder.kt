@@ -8,16 +8,18 @@ import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 
 
 // viewHolder extending RecyclerView.ViewHolder
+// receives View Binding
 class RecyclerViewHolder private constructor(
     private val binding: RecyclerListItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-
     // bind object info to views
-    fun bind(asteroid: Asteroid) {
+    // bind ItemClickListener
+    fun bind(asteroid: Asteroid, clickListener: ItemClickListener) {
 
-        // associate data binding variable with object
+        // associate data binding variables with objects/classes
         binding.asteroid = asteroid
+        binding.itemClickListener = clickListener
         binding.executePendingBindings()
     }
 
