@@ -1,9 +1,11 @@
-package com.sventripikal.nasa_asteroid_radar
+package com.sventripikal.nasa_asteroid_radar.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.sventripikal.nasa_asteroid_radar.databinding.ActivityMainBinding
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.sventripikal.nasa_asteroid_radar.databinding.FragmentDetailsScreenBinding
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_PAUSE
@@ -15,25 +17,27 @@ import com.sventripikal.nasa_asteroid_radar.utils.TAG
 import com.sventripikal.nasa_asteroid_radar.utils.timber
 
 
-class MainActivity : AppCompatActivity() {
+class DetailsScreen : Fragment() {
 
-    // layout binding
-    private lateinit var binding: ActivityMainBinding
+    // binding for layout
+    private lateinit var binding: FragmentDetailsScreenBinding
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
 
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
 
 
-        // inflate main layout
-        binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        // Inflate the layout for this fragment
+        binding = FragmentDetailsScreenBinding.inflate(inflater)
 
 
-        // set view
-        setContentView(binding.root)
+        // return root view
+        return binding.root
     }
 
 

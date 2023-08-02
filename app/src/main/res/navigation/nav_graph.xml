@@ -11,6 +11,15 @@
         android:id="@+id/mainScreen"
         android:name="com.sventripikal.nasa_asteroid_radar.screens.MainScreen"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_main_screen" />
+        tools:layout="@layout/fragment_main_screen" >
+        <action
+            android:id="@+id/action_mainScreen_to_detailsFragment"
+            app:destination="@id/detailsScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsScreen"
+        android:name="com.sventripikal.nasa_asteroid_radar.screens.DetailsScreen"
+        android:label="fragment_details_screen"
+        tools:layout="@layout/fragment_details_screen" />
 
 </navigation>
