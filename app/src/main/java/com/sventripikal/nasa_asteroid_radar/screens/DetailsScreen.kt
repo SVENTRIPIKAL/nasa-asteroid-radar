@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.sventripikal.nasa_asteroid_radar.databinding.FragmentDetailsScreenBinding
+import com.sventripikal.nasa_asteroid_radar.models.ApplicationViewModel
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_PAUSE
@@ -19,26 +21,40 @@ import com.sventripikal.nasa_asteroid_radar.utils.timber
 
 class DetailsScreen : Fragment() {
 
+
     // binding for layout
     private lateinit var binding: FragmentDetailsScreenBinding
 
 
+    // reference to viewModel instance
+    private val viewModel = ApplicationViewModel.getInstance()
+
+
+    // inflate layout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
-
 
         // Inflate the layout for this fragment
         binding = FragmentDetailsScreenBinding.inflate(inflater)
 
+        // bind viewModel instance to data
+        binding.viewModel = viewModel
+
+        // add clickListener for Help Icon
+        binding.absoluteMagnitudeHelpIcon.setOnClickListener {
+
+            // show Toast to indicate successful click
+            Toast.makeText(requireContext(), "(?)", Toast.LENGTH_SHORT).show()
+        }
 
         // return root view
         return binding.root
     }
+
 
 
     /**

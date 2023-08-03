@@ -1,17 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<!-- layout for data binding -->
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.DetailsScreen"
     tools:ignore="hardcodedtext">
 
+    <!-- viewModel: data binding object holding reference to viewModel -->
+    <data>
+        <variable
+            name="viewModel"
+            type="com.sventripikal.nasa_asteroid_radar.models.ApplicationViewModel" />
+    </data>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="DETAILS FRAGMENT" />
 
-</FrameLayout>
+    <!-- linear layout used to simply stack views vertically -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/black"
+        tools:context=".screens.MainScreen">
+
+        <!-- FrameLayout for containing ImageView behind TextView -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- ImageView for displaying asteroid photo -->
+            <ImageView
+                android:id="@+id/asteroidImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="current asteroid"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <!-- TextView for indicating asteroid hazard potential -->
+            <TextView
+                android:id="@+id/asteroidHazardText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:background="@color/black_transparent"
+                android:gravity="center"
+                android:paddingHorizontal="20dp"
+                android:text="@{viewModel.getHazardPotential()}"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Potentially Hazardous" />
+
+        </FrameLayout>
+
+
+        <!-- MaterialCardView for containing/stacking each asteroid detail -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            android:layout_height="80dp"
+            android:layout_marginVertical="2dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+            <!-- linear layout for simply stacking views vertically -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <!-- textview for displaying card header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close Approach Date:"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:gravity="start"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="20dp" />
+
+                <!-- textview for displaying card supporting text -->
+                <TextView
+                    android:id="@+id/asteroidCloseApproachDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingHorizontal="20dp"
+                    android:text="@{viewModel.getCloseApproachDate()}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    tools:text="2023/08/03" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- MaterialCardView for containing/stacking each asteroid detail -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            android:layout_height="80dp"
+            android:layout_marginVertical="2dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+            <!-- constraint layout for arranging views -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <!-- textview for displaying card header -->
+                <TextView
+                    android:id="@+id/absoluteMagnitudeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Absolute Magnitude:"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/asteroidAbsoluteMagnitude"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- textview for displaying card supporting text -->
+                <TextView
+                    android:id="@id/asteroidAbsoluteMagnitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="start"
+                    android:paddingHorizontal="20dp"
+                    android:text="@{viewModel.getAbsoluteMagnitude()}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/absoluteMagnitudeHeader"
+                    tools:text="21.300000 au" />
+
+                <!-- ImageView for displaying help icon -->
+                <ImageView
+                    android:id="@+id/absoluteMagnitudeHelpIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="200dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/round_help_24"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/help_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/asteroidAbsoluteMagnitude"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- MaterialCardView for containing/stacking each asteroid detail -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            android:layout_height="80dp"
+            android:layout_marginVertical="2dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+            <!-- linear layout for simply stacking views vertically -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <!-- textview for displaying card header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estimated Diameter:"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:gravity="start"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="20dp" />
+
+                <!-- textview for displaying card supporting text -->
+                <TextView
+                    android:id="@+id/asteroidEstimatedDiameter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingHorizontal="20dp"
+                    android:text="@{viewModel.getEstimatedDiameter()}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    tools:text="0.326618 km" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- MaterialCardView for containing/stacking each asteroid detail -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            android:layout_height="80dp"
+            android:layout_marginVertical="2dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+            <!-- linear layout for simply stacking views vertically -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <!-- textview for displaying card header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Relative Velocity:"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:gravity="start"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="20dp" />
+
+                <!-- textview for displaying card supporting text -->
+                <TextView
+                    android:id="@+id/asteroidRelativeVelocity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingHorizontal="20dp"
+                    android:text="@{viewModel.getRelativeVelocity()}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    tools:text="14.462685 km/s" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- MaterialCardView for containing/stacking each asteroid detail -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            android:layout_height="80dp"
+            android:layout_marginVertical="2dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.SmallComponent">
+
+            <!-- linear layout for simply stacking views vertically -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <!-- textview for displaying card header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Distance From Earth:"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:gravity="start"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="20dp" />
+
+                <!-- textview for displaying card supporting text -->
+                <TextView
+                    android:id="@+id/asteroidDistanceFromEarth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingHorizontal="20dp"
+                    android:text="@{viewModel.getDistanceFromEarth()}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    tools:text="0.197820 au" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+    
+</layout>

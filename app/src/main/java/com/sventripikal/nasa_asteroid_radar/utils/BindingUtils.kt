@@ -9,14 +9,15 @@ import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 
 
 // sets an asteroid ID into a TextView
-@BindingAdapter("setAsteroidName")
-fun TextView.setAsteroidName(asteroid: Asteroid?) {
+@BindingAdapter("setAsteroidId")
+fun TextView.setAsteroidId(asteroid: Asteroid?) {
 
     asteroid?.let {
 
         text = asteroid.id
     }
 }
+
 
 // sets the current date into a TextView
 @BindingAdapter("setCurrentDateFormatted")
@@ -27,6 +28,33 @@ fun TextView.setCurrentDateFormatted(asteroid: Asteroid?) {
         text = getCurrentDateString()
     }
 }
+
+
+// sets asteroid magnitude into a TextView
+@BindingAdapter("setAbsoluteMagnitude")
+fun TextView.setAbsoluteMagnitude(asteroid: Asteroid?) {
+
+    asteroid?.let {
+
+        val magnitude = "${asteroid.absoluteMagnitude} au"
+
+        text = magnitude
+    }
+}
+
+
+// sets asteroid diameter into a TextView
+@BindingAdapter("setEstimatedDiameter")
+fun TextView.setEstimatedDiameter(asteroid: Asteroid?) {
+
+    asteroid?.let {
+
+        val diameter = "${asteroid.estimatedDiameterMax} km"
+
+        text = diameter
+    }
+}
+
 
 // sets an asteroid hazard icon/color into an ImageView
 @BindingAdapter("setHazardIcon")

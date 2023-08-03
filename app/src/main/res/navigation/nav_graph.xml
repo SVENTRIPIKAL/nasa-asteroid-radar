@@ -12,10 +12,15 @@
         android:name="com.sventripikal.nasa_asteroid_radar.screens.MainScreen"
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
+
+        <!-- action navigate to details screen -->
         <action
             android:id="@+id/action_mainScreen_to_detailsFragment"
             app:destination="@id/detailsScreen" />
+
     </fragment>
+
+    <!-- details screen fragment -->
     <fragment
         android:id="@+id/detailsScreen"
         android:name="com.sventripikal.nasa_asteroid_radar.screens.DetailsScreen"

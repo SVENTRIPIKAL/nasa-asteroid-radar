@@ -50,7 +50,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/currentDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setAsteroidName="@{asteroid}"
+                app:setAsteroidId="@{asteroid}"
                 tools:text="2465633" />
 
             <!-- textview for displaying current date -->

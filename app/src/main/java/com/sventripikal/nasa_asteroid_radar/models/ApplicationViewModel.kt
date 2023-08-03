@@ -7,6 +7,7 @@ import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
 import com.sventripikal.nasa_asteroid_radar.utils.TAG
+import com.sventripikal.nasa_asteroid_radar.utils.getCurrentDateString
 import com.sventripikal.nasa_asteroid_radar.utils.listOfAsteroids
 import com.sventripikal.nasa_asteroid_radar.utils.timber
 
@@ -21,30 +22,82 @@ class ApplicationViewModel: ViewModel() {
         get() = _asteroidList
 
 
-    // navigation id string
-    private var _navigationScreenId = MutableLiveData<String?>()
-    val navigationScreenId: LiveData<String?>
-        get() = _navigationScreenId
 
+    /**
+     *  MAIN SCREEN
+     */
+    // item id observed for recyclerView onClick navigation
+    private var _navigationItemId = MutableLiveData<String?>()
+    val navigationItemId: LiveData<String?>
+        get() = _navigationItemId
 
-    // assign onClicked item id to navigation screen id
+    // assign onClicked item id to recyclerView observed variable
     fun itemClicked(asteroidId: String) {
-        _navigationScreenId.value = asteroidId
+        _navigationItemId.value = asteroidId
     }
 
+    // reset recyclerView observed item id to allow for back navigation
+    fun resetNavigationItemId() {
+        timber(TAG, "[${this.javaClass.simpleName}] === [${_navigationItemId.value}]", Priority.ERROR)
 
-    // reset navigation screen id to default value
-    fun resetNavigationId() {
-        timber(TAG, "[${this.javaClass.simpleName}] === [${_navigationScreenId.value}]", Priority.ERROR)
+        _navigationItemId.value = null
 
-        _navigationScreenId.value = null
-
-        timber(TAG, "[${this.javaClass.simpleName}] === [${_navigationScreenId.value}]", Priority.ERROR)
+        timber(TAG, "[${this.javaClass.simpleName}] === [${_detailsScreenAsteroid.value}]", Priority.DEBUG)
+        timber(TAG, "[${this.javaClass.simpleName}] === [${_navigationItemId.value}]", Priority.ERROR)
     }
+
 
 
     /**
-     * lifecycle functions
+     *  DETAILS SCREEN
+     */
+    // asteroid used for Details Screen
+    private var _detailsScreenAsteroid = MutableLiveData<Asteroid>()
+    val detailsScreenAsteroid: LiveData<Asteroid>
+        get() = _detailsScreenAsteroid
+
+    // update Details Screen asteroid
+    fun updateDetailsScreenAsteroid(asteroid: Asteroid) {
+        _detailsScreenAsteroid.value = asteroid
+    }
+
+    // get current date string
+    fun getCloseApproachDate(): String {
+        return getCurrentDateString()
+    }
+
+    // get detail asteroid magnitude string
+    fun getAbsoluteMagnitude(): String {
+        return "${_detailsScreenAsteroid.value!!.absoluteMagnitude} au"
+    }
+
+    // get detail asteroid diameter string
+    fun getEstimatedDiameter(): String {
+        return "${_detailsScreenAsteroid.value!!.estimatedDiameterMax} km"
+    }
+
+    // get detail asteroid hazard potential string
+    fun getHazardPotential(): String {
+        return when(_detailsScreenAsteroid.value!!.isPotentiallyHazardousAsteroid) {
+            true -> "Potentially Hazardous"
+            else -> "Not Hazardous"
+        }
+    }
+
+    // get detail asteroid velocity string
+    fun getRelativeVelocity(): String {
+        return "${_detailsScreenAsteroid.value!!.kilometersPerSecond} km/s"
+    }
+
+    // get detail asteroid distance string
+    fun getDistanceFromEarth(): String {
+        return "${_detailsScreenAsteroid.value!!.astronomical} au"
+    }
+
+
+
+    /**
+     *  LIFECYCLE FUNCTIONS
      */
     init {
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
@@ -57,6 +110,10 @@ class ApplicationViewModel: ViewModel() {
     }
 
 
+
+    /**
+     *  COMPANION OBJECT
+     */
     // used for creating viewModel using singleton method
     companion object {
 

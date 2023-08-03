@@ -34,9 +34,12 @@ class MainScreen : Fragment() {
     private lateinit var imageOfTheDay: ImageView                       // imageView
     private lateinit var recyclerView: RecyclerView                     // recyclerView
     private lateinit var lifecycleOwner: LifecycleOwner                 // lifecycleOwner
-    private lateinit var viewModel: ApplicationViewModel                // viewModel
     private lateinit var binding: FragmentMainScreenBinding             // layout binding
     private lateinit var newRecyclerViewAdapter: RecyclerViewAdapter    // recyclerViewAdapter
+
+
+    // reference to viewModel instance
+    private val viewModel = ApplicationViewModel.getInstance()          // viewModel
 
 
     // inflate layout
@@ -53,16 +56,14 @@ class MainScreen : Fragment() {
         binding = FragmentMainScreenBinding.inflate(inflater)
 
 
-        // get viewModel using singleton
-        viewModel = ApplicationViewModel.getInstance()
-
-
         // create adapter
         // adapter receives ItemClickListener class to handle click events
         newRecyclerViewAdapter = RecyclerViewAdapter( ItemClickListener {
 
-                // on item click run function & pass item id
-                asteroidId -> viewModel.itemClicked(asteroidId)
+                // on item click run functions & pass clicked item
+                asteroid ->
+                    viewModel.updateDetailsScreenAsteroid(asteroid)
+                    viewModel.itemClicked(asteroid.id)
         })
 
 
@@ -118,9 +119,9 @@ class MainScreen : Fragment() {
 
 
         // observe id changes & navigate to destination
-        viewModel.navigationScreenId.observe(lifecycleOwner, Observer{ id ->
+        viewModel.navigationItemId.observe(lifecycleOwner, Observer{ id ->
 
-            // if incoming id is not null
+            // if id is not null
             id?.let {
 
                 // navigate to destination using safeArgs
@@ -128,10 +129,11 @@ class MainScreen : Fragment() {
                 findNavController().navigate(action)
 
                 // reset navigation id value in viewModel
-                viewModel.resetNavigationId()
+                viewModel.resetNavigationItemId()
             }
         })
     }
+
 
 
     /**
