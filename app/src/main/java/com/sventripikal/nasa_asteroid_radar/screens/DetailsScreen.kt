@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.FragmentDetailsScreenBinding
 import com.sventripikal.nasa_asteroid_radar.models.ApplicationViewModel
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
@@ -47,8 +48,13 @@ class DetailsScreen : Fragment() {
         // add clickListener for Help Icon
         binding.absoluteMagnitudeHelpIcon.setOnClickListener {
 
-            // show Toast to indicate successful click
-            Toast.makeText(requireContext(), "(?)", Toast.LENGTH_SHORT).show()
+            MaterialAlertDialogBuilder(requireContext(), R.style.DialogTheme)
+                .setMessage("The astronomical unit (au) is a unit of length, roughly the distance from " +
+                        "Earth to the Sun, and equal to about 150 million kilometers (93 million miles).")
+                .setPositiveButton("Accept") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
 
         // return root view

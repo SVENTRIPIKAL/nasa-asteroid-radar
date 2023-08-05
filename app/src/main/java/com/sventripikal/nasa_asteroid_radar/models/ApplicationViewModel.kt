@@ -7,7 +7,6 @@ import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
 import com.sventripikal.nasa_asteroid_radar.utils.TAG
-import com.sventripikal.nasa_asteroid_radar.utils.getCurrentDateString
 import com.sventripikal.nasa_asteroid_radar.utils.listOfAsteroids
 import com.sventripikal.nasa_asteroid_radar.utils.timber
 
@@ -59,39 +58,6 @@ class ApplicationViewModel: ViewModel() {
     // update Details Screen asteroid
     fun updateDetailsScreenAsteroid(asteroid: Asteroid) {
         _detailsScreenAsteroid.value = asteroid
-    }
-
-    // get current date string
-    fun getCloseApproachDate(): String {
-        return getCurrentDateString()
-    }
-
-    // get detail asteroid magnitude string
-    fun getAbsoluteMagnitude(): String {
-        return "${_detailsScreenAsteroid.value!!.absoluteMagnitude} au"
-    }
-
-    // get detail asteroid diameter string
-    fun getEstimatedDiameter(): String {
-        return "${_detailsScreenAsteroid.value!!.estimatedDiameterMax} km"
-    }
-
-    // get detail asteroid hazard potential string
-    fun getHazardPotential(): String {
-        return when(_detailsScreenAsteroid.value!!.isPotentiallyHazardousAsteroid) {
-            true -> "Potentially Hazardous"
-            else -> "Not Hazardous"
-        }
-    }
-
-    // get detail asteroid velocity string
-    fun getRelativeVelocity(): String {
-        return "${_detailsScreenAsteroid.value!!.kilometersPerSecond} km/s"
-    }
-
-    // get detail asteroid distance string
-    fun getDistanceFromEarth(): String {
-        return "${_detailsScreenAsteroid.value!!.astronomical} au"
     }
 
 

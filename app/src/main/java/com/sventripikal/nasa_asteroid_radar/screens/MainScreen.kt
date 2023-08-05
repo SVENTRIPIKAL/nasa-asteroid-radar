@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.FragmentMainScreenBinding
 import com.sventripikal.nasa_asteroid_radar.models.ApplicationViewModel
 import com.sventripikal.nasa_asteroid_radar.recycler_view.ItemClickListener
@@ -31,7 +29,6 @@ class MainScreen : Fragment() {
 
 
     // late inits
-    private lateinit var imageOfTheDay: ImageView                       // imageView
     private lateinit var recyclerView: RecyclerView                     // recyclerView
     private lateinit var lifecycleOwner: LifecycleOwner                 // lifecycleOwner
     private lateinit var binding: FragmentMainScreenBinding             // layout binding
@@ -71,10 +68,6 @@ class MainScreen : Fragment() {
         setUIBindings()
 
 
-        // set image of the day
-        imageOfTheDay.setImageResource(R.drawable.ic_launcher_background)
-
-
         // apply UI observers
         setUIObservers()
 
@@ -89,9 +82,6 @@ class MainScreen : Fragment() {
 
         // assign lifecycle owner
         lifecycleOwner = this
-
-        // assign image of the day
-        imageOfTheDay = binding.imageOfTheDay
 
         // assign recycler view
         recyclerView = binding.asteroidRecyclerView

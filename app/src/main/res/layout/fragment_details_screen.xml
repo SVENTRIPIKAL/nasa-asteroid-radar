@@ -22,36 +22,15 @@
         android:background="@color/black"
         tools:context=".screens.MainScreen">
 
-        <!-- FrameLayout for containing ImageView behind TextView -->
-        <FrameLayout
+        <!-- ImageView for displaying asteroid photo -->
+        <ImageView
+            android:id="@+id/asteroidImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!-- ImageView for displaying asteroid photo -->
-            <ImageView
-                android:id="@+id/asteroidImage"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="current asteroid"
-                tools:src="@drawable/ic_launcher_background" />
-
-            <!-- TextView for indicating asteroid hazard potential -->
-            <TextView
-                android:id="@+id/asteroidHazardText"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:background="@color/black_transparent"
-                android:gravity="center"
-                android:paddingHorizontal="20dp"
-                android:text="@{viewModel.getHazardPotential()}"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="Potentially Hazardous" />
-
-        </FrameLayout>
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="current asteroid"
+            app:setAsteroidImage="@{viewModel.detailsScreenAsteroid}"
+            tools:src="@drawable/ic_launcher_background" />
 
 
         <!-- MaterialCardView for containing/stacking each asteroid detail -->
@@ -87,10 +66,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:paddingHorizontal="20dp"
-                    android:text="@{viewModel.getCloseApproachDate()}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="italic"
+                    app:setCloseApproachDate="@{viewModel.detailsScreenAsteroid}"
                     tools:text="2023/08/03" />
 
             </LinearLayout>
@@ -136,13 +115,13 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="start"
                     android:paddingHorizontal="20dp"
-                    android:text="@{viewModel.getAbsoluteMagnitude()}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="italic"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/absoluteMagnitudeHeader"
+                    app:setAbsoluteMagnitude="@{viewModel.detailsScreenAsteroid}"
                     tools:text="21.300000 au" />
 
                 <!-- ImageView for displaying help icon -->
@@ -203,10 +182,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:paddingHorizontal="20dp"
-                    android:text="@{viewModel.getEstimatedDiameter()}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="italic"
+                    app:setEstimatedDiameter="@{viewModel.detailsScreenAsteroid}"
                     tools:text="0.326618 km" />
 
             </LinearLayout>
@@ -247,10 +226,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:paddingHorizontal="20dp"
-                    android:text="@{viewModel.getRelativeVelocity()}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="italic"
+                    app:setRelativeVelocity="@{viewModel.detailsScreenAsteroid}"
                     tools:text="14.462685 km/s" />
 
             </LinearLayout>
@@ -291,10 +270,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:paddingHorizontal="20dp"
-                    android:text="@{viewModel.getDistanceFromEarth()}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="italic"
+                    app:setDistanceFromEarth="@{viewModel.detailsScreenAsteroid}"
                     tools:text="0.197820 au" />
 
             </LinearLayout>

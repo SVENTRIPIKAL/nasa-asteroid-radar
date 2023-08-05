@@ -19,6 +19,7 @@
             android:id="@+id/imageOfTheDay"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:src="@drawable/image_of_the_day_08_05_2023"
             android:scaleType="centerCrop"
             android:contentDescription="@string/image_of_the_day"
             tools:src="@drawable/ic_launcher_background" />
