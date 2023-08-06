@@ -20,6 +20,7 @@ import com.sventripikal.nasa_asteroid_radar.utils.TAG
 import com.sventripikal.nasa_asteroid_radar.utils.timber
 
 
+// details screen fragment
 class DetailsScreen : Fragment() {
 
 
@@ -48,6 +49,13 @@ class DetailsScreen : Fragment() {
         // add clickListener for Help Icon
         binding.absoluteMagnitudeHelpIcon.setOnClickListener {
 
+
+            /**
+             * TO DO:
+             *      +_scrim needs to be fixed / background does not dim
+             *      +_dialog needs to be customized
+             */
+            // basic material dialog
             MaterialAlertDialogBuilder(requireContext(), R.style.DialogTheme)
                 .setMessage("The astronomical unit (au) is a unit of length, roughly the distance from " +
                         "Earth to the Sun, and equal to about 150 million kilometers (93 million miles).")

@@ -94,34 +94,35 @@ class MainScreen : Fragment() {
     // apply UI observers
     private fun setUIObservers() {
 
-        /**
-         * TO DO: create viewModel.apply block
-         */
 
-        // observe viewModel list changes
-        viewModel.asteroidList.observe(lifecycleOwner, Observer { list ->
+        // viewModel block
+        viewModel.apply {
 
-            // allow adapter to update list changes
-            list?.let {
-                newRecyclerViewAdapter.submitList(it)
-            }
-        })
+            // observe viewModel list changes
+            asteroidList.observe(lifecycleOwner, Observer { list ->
+
+                // allow adapter to update list changes
+                list?.let {
+                    newRecyclerViewAdapter.submitList(it)
+                }
+            })
 
 
-        // observe id changes & navigate to destination
-        viewModel.navigationItemId.observe(lifecycleOwner, Observer{ id ->
+            // observe id changes & navigate to destination
+            navigationItemId.observe(lifecycleOwner, Observer{ id ->
 
-            // if id is not null
-            id?.let {
+                // if id is not null
+                id?.let {
 
-                // navigate to destination using safeArgs
-                val action = MainScreenDirections.actionMainScreenToDetailsFragment()
-                findNavController().navigate(action)
+                    // navigate to destination using safeArgs
+                    val action = MainScreenDirections.actionMainScreenToDetailsFragment()
+                    findNavController().navigate(action)
 
-                // reset navigation id value in viewModel
-                viewModel.resetNavigationItemId()
-            }
-        })
+                    // reset navigation id value in viewModel
+                    resetNavigationItemId()
+                }
+            })
+        }
     }
 
 
