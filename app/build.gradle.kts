@@ -6,6 +6,7 @@ plugins {
     id ("kotlin-parcelize")                         // parcelize
     id ("com.google.devtools.ksp")                  // ksp for Glide
     id ("kotlin-kapt")                              // kapt for Room
+    id ("kotlinx-serialization")                    // kotlinx-serializer
 }
 
 android {
@@ -67,11 +68,17 @@ dependencies {
     val timberLogVersion = "5.0.1"
     implementation ("com.jakewharton.timber:timber:$timberLogVersion")
 
-    // Moshi    [JSON serializer]   <Same as KotlinX-Serializer>
-    val moshiVersion = "1.14.0"
-    implementation ("com.squareup.moshi:moshi:$moshiVersion")
-    val moshiConverterVersion = "2.9.0"
-    implementation ("com.squareup.retrofit2:converter-moshi:$moshiConverterVersion")
+    // KotlinX-Serializer    [JSON serializer]
+    val kotlinxVersion = "1.5.1"
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxVersion")
+    val kotlinxConverter = "1.0.0"
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$kotlinxConverter")
+
+    // OkHttp   [network requests / companion mediaType converter]
+    val okHttpVersion = "4.11.0"
+    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
+
+    // Picasso  [async image loader]    <Same as COIL>
 
     // Glide    [async image loader]    <Same as COIL>
     val glideVersion = "4.9.0"

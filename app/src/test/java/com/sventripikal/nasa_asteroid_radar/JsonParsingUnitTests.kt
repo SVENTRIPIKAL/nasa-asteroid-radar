@@ -1,83 +1,32 @@
-package com.sventripikal.nasa_asteroid_radar.utils
+package com.sventripikal.nasa_asteroid_radar
 
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_ABSOLUTE_MAGNITUDE_H
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_APPROACH_DATA
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_ASTRONOMICAL
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_CLOSE_APPROACH_DATE
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_ESTIMATED_DIAMETER
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_ESTIMATED_DIAMETER_MAX
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_ID
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_IS_POTENTIALLY_HAZARDOUS
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_KILOMETERS
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_KILOMETERS_PER_SECOND
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_MISS_DISTANCE
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_NAME
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_NEAR_EARTH_OBJECTS
+import com.sventripikal.nasa_asteroid_radar.utils.JSON_RELATIVE_VELOCITY
+import com.sventripikal.nasa_asteroid_radar.utils.fakeDataRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
-import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import org.junit.Test
 
 
-
-// json query constants
-const val JSON_NEAR_EARTH_OBJECTS = "near_earth_objects"
-const val JSON_ID = "id"
-const val JSON_NAME = "name"
-const val JSON_ABSOLUTE_MAGNITUDE_H = "absolute_magnitude_h"
-const val JSON_ESTIMATED_DIAMETER = "estimated_diameter"
-const val JSON_KILOMETERS = "kilometers"
-const val JSON_ESTIMATED_DIAMETER_MAX = "estimated_diameter_max"
-const val JSON_IS_POTENTIALLY_HAZARDOUS = "is_potentially_hazardous_asteroid"
-const val JSON_APPROACH_DATA = "close_approach_data"
-const val JSON_RELATIVE_VELOCITY = "relative_velocity"
-const val JSON_KILOMETERS_PER_SECOND = "kilometers_per_second"
-const val JSON_CLOSE_APPROACH_DATE = "close_approach_date"
-const val JSON_MISS_DISTANCE = "miss_distance"
-const val JSON_ASTRONOMICAL = "astronomical"
-
-
-
-// current date format pattern
-private const val DATE_PATTERN_STRING = "yyyy-MM-dd"
-
-// returns current date as formatted string
-fun getCurrentDateString(): String {
-
-    // create calendar instance
-    val calendar = Calendar.getInstance()
-
-    // create formatter with date string pattern
-    val formatter = SimpleDateFormat(DATE_PATTERN_STRING, Locale.getDefault())
-
-    // return formatted date as string
-    return formatter.format(calendar.time).toString()
-}
-
-
-// logging tag
-const val TAG = "_SVENTRIPIKAL"
-
-// logging message
-const val MESSAGE_CREATE = "[ON-CREATE]"
-const val MESSAGE_START = "[ON-START]"
-const val MESSAGE_RESUME = "[ON-RESUME]"
-const val MESSAGE_PAUSE = "[ON-PAUSE]"
-const val MESSAGE_STOP = "[ON-STOP]"
-const val MESSAGE_DESTROY = "[ON-DESTROY]"
-
-// logging priority enum
-enum class Priority { ERROR, VERBOSE, DEBUG, INFO }
-
-// timber logging function
-fun timber(tag: String, message: String, priority: Priority) {
-
-    when (priority) {
-        Priority.ERROR -> Timber.tag(tag).e(message)
-        Priority.VERBOSE -> Timber.tag(tag).v(message)
-        Priority.DEBUG -> Timber.tag(tag).d(message)
-        Priority.INFO -> Timber.tag(tag).i(message)
-    }
-}
-
-
-
-// Json config
 private val json = Json { ignoreUnknownKeys = true }
+
 
 // returns JsonObject of near_earth_objects
 private fun getNearEarthObjects(query: String): JsonObject {
@@ -236,26 +185,47 @@ private fun getAsteroidsFromJsonArrays(map: Map<String, JsonArray>): Map<String,
 }
 
 
-// returns list of Asteroids from Json String
-fun getListOfAsteroids(query: String): List<Asteroid> {
 
-    // tempList
-    val tempList = mutableListOf<Asteroid>()
+class JsonParsingUnitTests {
 
-    // returns JsonObject of near_earth_objects
-    val a = getNearEarthObjects(query)
+    /**
+     *  converts Json request String to JsonObject  -  near_earth_objects: JsonObject
+     */
+    @Test
+    fun when_requestReceived_should_containNearEarthObjectsOnly() {
 
-    // returns Map<K, V> of String Dates & JsonArray of JsonObjects
-    val b = getMapOfStringDatesAndJsonArrays(a)
+        val obj = getNearEarthObjects(fakeDataRequest)
 
-    // returns Map<K, V> of String Dates & List of Asteroids
-    val c = getAsteroidsFromJsonArrays(b)
-
-    // add all lists to tempList
-    c.values.map {
-        tempList.addAll(it)
+        println(obj)
     }
 
-    // return tempList
-    return tempList
+    /**
+     *  converts JsonObject to Map<K, V>  -  Map<dates: String, array: JsonArray>
+     */
+    @Test
+    fun when_getMapFromObject_should_containMapOfStringDatesJsonArrays() {
+
+        val obj = getNearEarthObjects(fakeDataRequest)
+
+        val mapOfJsonArrays = getMapOfStringDatesAndJsonArrays(obj)
+
+        println(mapOfJsonArrays)
+    }
+
+    /**
+     *  converts JsonArray elements to List<Asteroid>  -  Map<dates: String, List<Asteroid>>
+     */
+    @Test
+    fun when_getAsteroidsFromArray_should_containMapOfDatesAndAsteroids() {
+
+        val obj = getNearEarthObjects(fakeDataRequest)
+
+        val mapOfJsonArrays = getMapOfStringDatesAndJsonArrays(obj)
+
+        val mapOfAsteroids = getAsteroidsFromJsonArrays(mapOfJsonArrays)
+
+        println(mapOfAsteroids)
+    }
+
+
 }

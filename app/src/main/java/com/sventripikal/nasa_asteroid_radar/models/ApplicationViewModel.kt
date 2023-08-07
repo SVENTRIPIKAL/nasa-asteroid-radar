@@ -3,20 +3,29 @@ package com.sventripikal.nasa_asteroid_radar.models
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sventripikal.nasa_asteroid_radar.network.AsteroidApi
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
 import com.sventripikal.nasa_asteroid_radar.utils.TAG
-import com.sventripikal.nasa_asteroid_radar.utils.listOfAsteroids
+import com.sventripikal.nasa_asteroid_radar.utils.fakeDataRequest
+import com.sventripikal.nasa_asteroid_radar.utils.getListOfAsteroids
 import com.sventripikal.nasa_asteroid_radar.utils.timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // main application viewModel
 class ApplicationViewModel: ViewModel() {
 
 
-    // asteroid list [retrieved from Constants]
-    private var _asteroidList = MutableLiveData(listOfAsteroids)
+    // asteroid list
+    private var _asteroidList = MutableLiveData<List<Asteroid>>()
     val asteroidList: LiveData<List<Asteroid>>
         get() = _asteroidList
 
@@ -63,10 +72,53 @@ class ApplicationViewModel: ViewModel() {
 
 
     /**
+     *  NETWORK FUNCTIONS
+     */
+    private var _networkResponse = MutableLiveData<String>()
+    val networkResponse: LiveData<String>
+        get() = _networkResponse
+
+
+    // function to submit network request
+    private fun queryNetworkResponse() {
+
+        AsteroidApi.retrofitService.getAsteroidsForTheWeek().enqueue(object: Callback<String> {
+
+            // on success when fetching request
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                // assign response body to network value
+                _networkResponse.value = response.body()
+            }
+
+            // on failure when fetching request
+            override fun onFailure(call: Call<String>, t: Throwable) {
+
+                // assign response failure message to network value
+                _networkResponse.value = "Failure: ${t.message}"
+            }
+
+        })
+    }
+
+
+    /**
      *  LIFECYCLE FUNCTIONS
      */
     init {
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
+
+        // launch viewModel coroutine
+        viewModelScope.launch {
+
+            // convert Json String to Asteroid list asyncly from FakeDataRequest.kt file
+            val list = withContext(Dispatchers.IO) {
+                getListOfAsteroids(fakeDataRequest)
+            }
+
+            // update asteroid list
+            _asteroidList.postValue(list)
+        }
     }
 
     override fun onCleared() {

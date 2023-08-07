@@ -1,21 +1,75 @@
 package com.sventripikal.nasa_asteroid_radar.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+
+@Serializable @Entity("asteroidTable")
 data class Asteroid(
-    var id: String,
-    var absoluteMagnitude: Double,
-    var estimatedDiameterMax: Double,
-    var isPotentiallyHazardousAsteroid: Boolean,
-    var kilometersPerSecond: String,
-    var astronomical: String
+    @SerialName("id")
+        @PrimaryKey var id: String,
+
+    @SerialName("name")
+        @ColumnInfo("name") var name: String,
+
+    @SerialName("absolute_magnitude_h")
+        @ColumnInfo("absolute_magnitude_h")
+            var absoluteMagnitude: Double,
+
+    @SerialName("estimated_diameter_max")
+        @ColumnInfo("estimated_diameter_max")
+            var estimatedDiameterMax: Double,
+
+    @SerialName("is_potentially_hazardous_asteroid")
+        @ColumnInfo("is_potentially_hazardous_asteroid")
+            var isPotentiallyHazardousAsteroid: Boolean,
+
+    @SerialName("close_approach_date")
+        @ColumnInfo("close_approach_date")
+            var closeApproachDate: String,
+
+    @SerialName("kilometers_per_second")
+        @ColumnInfo("kilometers_per_second")
+            var kilometersPerSecond: String,
+
+    @SerialName("astronomical")
+        @ColumnInfo("astronomical") var astronomical: String
 )
 /**                 EXAMPLE_ASTEROID
  * id:                                  "2465633" {not_displayed}
+ * name:                                "465633 (2009 JR5)"
  * absolute_magnitude_h:                20.48
  * estimated_diameter_max:              0.4764748465
  * is_potentially_hazardous_asteroid:   true
+ * close_approach_date:                 "2015-09-08"
  * kilometers_per_second:               "18.127936605"
  * astronomical:                        "0.3027469593"
+ *
+ * { }
+ * { near_earth_objects }
+ *          [ 2015-09-08 ]
+ *              { 0 }
+ *                  +_id: <String>
+ *                  +_name: <String>
+ *                  +_absolute_magnitude_h: <Double>
+ *                          |
+ *                  { estimated_diameter }
+ *                              { kilometers }
+ *                                      +_estimated_diameter_max: <Double>
+ *                          |
+ *                  +_is_potentially_hazardous_asteroid: <Boolean>
+ *                          |
+ *                  [ close_approach_data ]
+ *                          { 0 }
+ *                              +_close_approach_date: <String>
+ *                                  |
+ *                              { relative_velocity }
+ *                                      +_kilometers_per_second: <String>
+ *                                  |
+ *                              { miss_distance }
+ *                                      +_astronomical: <String>
+ *
  */
-// [ close_approach_data ] -> { relative_velocity } -> < kilometers_per_second >
-// [ close_approach_data ] -> {   miss_distance   } -> <     astronomical      >

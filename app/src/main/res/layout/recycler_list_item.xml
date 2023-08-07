@@ -50,8 +50,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/currentDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setAsteroidId="@{asteroid}"
-                tools:text="2465633" />
+                app:setAsteroidName="@{asteroid}"
+                tools:text="465633 (2009 JR5)" />
 
             <!-- textview for displaying current date -->
             <TextView
@@ -68,7 +68,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/asteroidName"
                 app:setCloseApproachDate="@{asteroid}"
-                tools:text="07/29/2023" />
+                tools:text="2023-07-29" />
 
             <!-- imageview for displaying asteroid hazard potential icon -->
             <ImageView

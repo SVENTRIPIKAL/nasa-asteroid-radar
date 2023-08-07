@@ -10,12 +10,12 @@ import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 
 
 // sets an asteroid ID into a TextView
-@BindingAdapter("setAsteroidId")
-fun TextView.setAsteroidId(asteroid: Asteroid?) {
+@BindingAdapter("setAsteroidName")
+fun TextView.setAsteroidName(asteroid: Asteroid?) {
 
     asteroid?.let {
 
-        text = asteroid.id
+        text = asteroid.name
     }
 }
 
@@ -72,7 +72,7 @@ fun TextView.setCloseApproachDate(asteroid: Asteroid?) {
 
     asteroid?.let {
 
-        text = getCurrentDateString()
+        text = asteroid.closeApproachDate
     }
 }
 
