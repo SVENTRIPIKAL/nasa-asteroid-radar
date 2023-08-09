@@ -4,9 +4,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Picasso
 import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 
+
+
+// loads image of the day into an ImageView
+@BindingAdapter("setImageOfTheDay")
+fun ImageView.setImageOfTheDay(url: String?) {
+
+    if (url != null)  Picasso.get().load(url).into(this)
+}
 
 
 // sets an asteroid ID into a TextView

@@ -75,6 +75,9 @@ class ApplicationViewModel(application: Application): ViewModel() {
     // links to & observes asteroidListRepo
     val asteroidList: LiveData<List<Asteroid>> = asteroidRepository.asteroidListRepo
 
+    // links to & observes imageOfTheDayRepo
+    val imageOfTheDay: LiveData<ImageOfTheDay?> = asteroidRepository.imageOfTheDayRepo
+
     // query NASA API asteroid feed
     private fun executeAsteroidQuery() {
 
@@ -82,8 +85,9 @@ class ApplicationViewModel(application: Application): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
 
             // updates asteroid list live data via asteroidListRepo
-            asteroidRepository.refreshDemoDatabase()
+            asteroidRepository.refreshImageOfTheDay()
             asteroidRepository.refreshAsteroidsOfTheWeek()
+            asteroidRepository.refreshDemoDatabase()
         }
     }
 

@@ -74,16 +74,9 @@ dependencies {
     val scalarsVersion = "2.9.0"
     implementation ("com.squareup.retrofit2:converter-scalars:$scalarsVersion")
 
-
-    // OkHttp   [network requests / companion mediaType converter]
-    val okHttpVersion = "4.11.0"
-    implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
-
-    // Picasso  [async image loader]    <Same as COIL>
-
-    // Glide    [async image loader]    <Same as COIL>
-    val glideVersion = "4.9.0"
-    implementation ("com.github.bumptech.glide:glide:$glideVersion")
+    // Picasso  [async image loader]
+    val picassoVersion = "2.8"
+    implementation ("com.squareup.picasso:picasso:$picassoVersion")
 
     // Retrofit [network requests]
     val retrofitVersion = "2.9.0"

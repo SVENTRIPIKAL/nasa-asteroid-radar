@@ -1,20 +1,6 @@
 package com.sventripikal.nasa_asteroid_radar
 
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_ABSOLUTE_MAGNITUDE_H
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_APPROACH_DATA
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_ASTRONOMICAL
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_CLOSE_APPROACH_DATE
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_ESTIMATED_DIAMETER
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_ESTIMATED_DIAMETER_MAX
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_ID
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_IS_POTENTIALLY_HAZARDOUS
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_KILOMETERS
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_KILOMETERS_PER_SECOND
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_MISS_DISTANCE
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_NAME
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_NEAR_EARTH_OBJECTS
-import com.sventripikal.nasa_asteroid_radar.utils.JSON_RELATIVE_VELOCITY
 import com.sventripikal.nasa_asteroid_radar.utils.fakeDataRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -24,6 +10,21 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import org.junit.Test
 
+
+private const val JSON_NEAR_EARTH_OBJECTS = "near_earth_objects"
+private const val JSON_ID = "id"
+private const val JSON_NAME = "name"
+private const val JSON_ABSOLUTE_MAGNITUDE_H = "absolute_magnitude_h"
+private const val JSON_ESTIMATED_DIAMETER = "estimated_diameter"
+private const val JSON_KILOMETERS = "kilometers"
+private const val JSON_ESTIMATED_DIAMETER_MAX = "estimated_diameter_max"
+private const val JSON_IS_POTENTIALLY_HAZARDOUS = "is_potentially_hazardous_asteroid"
+private const val JSON_APPROACH_DATA = "close_approach_data"
+private const val JSON_RELATIVE_VELOCITY = "relative_velocity"
+private const val JSON_KILOMETERS_PER_SECOND = "kilometers_per_second"
+private const val JSON_CLOSE_APPROACH_DATE = "close_approach_date"
+private const val JSON_MISS_DISTANCE = "miss_distance"
+private const val JSON_ASTRONOMICAL = "astronomical"
 
 private val json = Json { ignoreUnknownKeys = true }
 

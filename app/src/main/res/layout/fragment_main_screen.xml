@@ -35,9 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_gravity="top"
-                android:contentDescription="@string/image_of_the_day"
+                android:contentDescription="@{viewModel.imageOfTheDay.title}"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_of_the_day_08_05_2023"
+                app:setImageOfTheDay="@{viewModel.imageOfTheDay.url}"
                 tools:src="@drawable/ic_launcher_background" />
 
             <!-- TextView for describing image being displayed -->

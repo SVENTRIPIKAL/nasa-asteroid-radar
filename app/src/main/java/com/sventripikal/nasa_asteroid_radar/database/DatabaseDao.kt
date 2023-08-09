@@ -10,14 +10,18 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
+import com.sventripikal.nasa_asteroid_radar.models.ImageOfTheDay
 
 
 // data access object functions
 // for accessing database
 @Dao
-interface AsteroidDao {
+interface DatabaseDao {
 
-    // retrieves all from database
+    /**
+     * ASTEROID TABLE
+     */
+    // retrieves all from database sorted ascending
     @Query("""
         select * from asteroidTable
         order by close_approach_date asc
@@ -25,7 +29,7 @@ interface AsteroidDao {
     fun getAll(): LiveData<List<Asteroid>>
 
 
-    // retrieves asteroids for week ahead from database
+    // retrieves asteroids for week ahead from database sorted ascending
     @Query("""
         select * from asteroidTable
         where close_approach_date
@@ -35,23 +39,38 @@ interface AsteroidDao {
     fun getAsteroidsOfTheWeek(startDate: String, endDate: String): LiveData<List<Asteroid>>
 
 
-    // inserts all into database
+    // inserts asteroid into database
    @Insert(onConflict = OnConflictStrategy.REPLACE)
-   fun insertAll(vararg asteroid: Asteroid)
+   fun insertAsteroid(vararg asteroid: Asteroid)
+
+
+    /**
+     * IMAGE TABLE
+     */
+    // retrieves image of the day
+    @Query("""
+        select * from imageTable
+        where date = :date
+    """)
+    fun getImageOfTheDay(date: String): LiveData<ImageOfTheDay?>
+
+    // inserts image into database
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertImage(vararg image: ImageOfTheDay?)
 }
 
 
 // database access to dao instance
-@Database(entities = [Asteroid::class], version = 1)
+@Database(entities = [Asteroid::class, ImageOfTheDay::class], version = 1)
 abstract class AsteroidDatabase: RoomDatabase() {
 
-    abstract val asteroidDao: AsteroidDao
+    abstract val databaseDao: DatabaseDao
 }
 
 // database instance
 private lateinit var INSTANCE: AsteroidDatabase
 
-// returns singleton database
+// returns singleton database instance
 fun getDatabase(application: Application): AsteroidDatabase {
 
     synchronized(AsteroidDatabase::class.java) {

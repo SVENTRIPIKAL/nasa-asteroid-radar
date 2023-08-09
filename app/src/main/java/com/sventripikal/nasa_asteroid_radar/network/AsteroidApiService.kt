@@ -1,6 +1,7 @@
 package com.sventripikal.nasa_asteroid_radar.network
 
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
+import com.sventripikal.nasa_asteroid_radar.models.ImageOfTheDay
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -37,11 +38,17 @@ private val retrofit = Retrofit.Builder()
 // defines get request functions for Api object
 interface AsteroidApiService {
 
-    // parameter query
+    // get request for asteroids list
     @GET("neo/rest/v1/feed")
-    suspend fun getParameterQueryAsync(
+    suspend fun getAsteroidFeedForWeek(
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
+        @Query("api_key") apiKey: String
+    ): String
+
+    // get request for image of the day
+    @GET("planetary/apod")
+    suspend fun getImageOfTheDay(
         @Query("api_key") apiKey: String
     ): String
 }
@@ -95,7 +102,7 @@ fun getDemoQueryDemoKey(): Triple<String, String, String> {
 
 
 /**
- *  JSON PARSING
+ *  ASTEROID PARSING
  */
 // json query constants
 private const val JSON_NEAR_EARTH_OBJECTS = "near_earth_objects"
@@ -293,4 +300,37 @@ fun convertToListOfAsteroids(query: String): List<Asteroid> {
 
     // return tempList
     return tempList
+}
+
+
+/**
+ *  IMAGE OF THE DAY PARSING
+ */
+private const val JSON_IOD_URL = "url"
+private const val JSON_IOD_DATE = "date"
+private const val JSON_IOD_TITLE = "title"
+private const val JSON_IOD_IMAGE = "image"
+private const val JSON_IOD_MEDIA_TYPE = "media_type"
+
+// returns image of the day from Json string
+fun extractImageOfTheDay(query: String): ImageOfTheDay? {
+
+    val obj = json.decodeFromString<JsonObject>(query)
+
+    val mediaType = json.decodeFromJsonElement<String>( obj[JSON_IOD_MEDIA_TYPE]!! )
+
+    return if (mediaType == JSON_IOD_IMAGE) {
+
+        val date = json.decodeFromJsonElement<String>( obj[JSON_IOD_DATE]!! )
+        val title = json.decodeFromJsonElement<String>( obj[JSON_IOD_TITLE]!! )
+        val url = json.decodeFromJsonElement<String>( obj[JSON_IOD_URL]!! )
+
+        ImageOfTheDay(
+            date = date,
+            mediaType = mediaType,
+            title = title,
+            url = url
+        )
+
+    } else null
 }
