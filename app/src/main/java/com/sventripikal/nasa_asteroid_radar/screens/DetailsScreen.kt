@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.FragmentDetailsScreenBinding
@@ -28,8 +29,8 @@ class DetailsScreen : Fragment() {
     private lateinit var binding: FragmentDetailsScreenBinding
 
 
-    // reference to viewModel instance
-    private val viewModel = ApplicationViewModel.getInstance()
+    // shared viewModel
+    private val viewModel: ApplicationViewModel by activityViewModels{ ApplicationViewModel.Factory }
 
 
     // inflate layout
@@ -42,6 +43,9 @@ class DetailsScreen : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentDetailsScreenBinding.inflate(inflater)
+
+        // lifecycle owner
+        binding.lifecycleOwner = requireActivity()
 
         // bind viewModel instance to data
         binding.viewModel = viewModel

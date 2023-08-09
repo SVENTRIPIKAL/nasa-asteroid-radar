@@ -71,8 +71,9 @@ dependencies {
     // KotlinX-Serializer    [JSON serializer]
     val kotlinxVersion = "1.5.1"
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxVersion")
-    val kotlinxConverter = "1.0.0"
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$kotlinxConverter")
+    val scalarsVersion = "2.9.0"
+    implementation ("com.squareup.retrofit2:converter-scalars:$scalarsVersion")
+
 
     // OkHttp   [network requests / companion mediaType converter]
     val okHttpVersion = "4.11.0"

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -30,13 +30,12 @@ class MainScreen : Fragment() {
 
     // late inits
     private lateinit var recyclerView: RecyclerView                     // recyclerView
-    private lateinit var lifecycleOwner: LifecycleOwner                 // lifecycleOwner
     private lateinit var binding: FragmentMainScreenBinding             // layout binding
     private lateinit var newRecyclerViewAdapter: RecyclerViewAdapter    // recyclerViewAdapter
 
 
-    // reference to viewModel instance
-    private val viewModel = ApplicationViewModel.getInstance()          // viewModel
+    // shared viewModel-parent
+    private val viewModel: ApplicationViewModel by activityViewModels{ ApplicationViewModel.Factory }
 
 
     // inflate layout
@@ -80,8 +79,10 @@ class MainScreen : Fragment() {
     // bind layout views
     private fun setUIBindings() {
 
-        // assign lifecycle owner
-        lifecycleOwner = this
+        // lifecycle owner
+        binding.lifecycleOwner = requireActivity()
+
+        binding.viewModel = viewModel
 
         // assign recycler view
         recyclerView = binding.asteroidRecyclerView
@@ -99,7 +100,7 @@ class MainScreen : Fragment() {
         viewModel.apply {
 
             // observe viewModel list changes
-            asteroidList.observe(lifecycleOwner, Observer { list ->
+            asteroidList.observe(viewLifecycleOwner, Observer { list ->
 
                 // allow adapter to update list changes
                 list?.let {
@@ -109,7 +110,7 @@ class MainScreen : Fragment() {
 
 
             // observe id changes & navigate to destination
-            navigationItemId.observe(lifecycleOwner, Observer{ id ->
+            navigationItemId.observe(viewLifecycleOwner, Observer{ id ->
 
                 // if id is not null
                 id?.let {

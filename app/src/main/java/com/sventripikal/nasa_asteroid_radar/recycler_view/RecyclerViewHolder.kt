@@ -3,6 +3,7 @@ package com.sventripikal.nasa_asteroid_radar.recycler_view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.RecyclerListItemBinding
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 

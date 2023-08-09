@@ -1,34 +1,26 @@
 package com.sventripikal.nasa_asteroid_radar.models
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import com.sventripikal.nasa_asteroid_radar.network.AsteroidApi
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.sventripikal.nasa_asteroid_radar.database.getDatabase
+import com.sventripikal.nasa_asteroid_radar.repository.AsteroidsRepository
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
 import com.sventripikal.nasa_asteroid_radar.utils.TAG
-import com.sventripikal.nasa_asteroid_radar.utils.fakeDataRequest
-import com.sventripikal.nasa_asteroid_radar.utils.getListOfAsteroids
 import com.sventripikal.nasa_asteroid_radar.utils.timber
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 // main application viewModel
-class ApplicationViewModel: ViewModel() {
-
-
-    // asteroid list
-    private var _asteroidList = MutableLiveData<List<Asteroid>>()
-    val asteroidList: LiveData<List<Asteroid>>
-        get() = _asteroidList
-
+class ApplicationViewModel(application: Application): ViewModel() {
 
 
     /**
@@ -72,34 +64,29 @@ class ApplicationViewModel: ViewModel() {
 
 
     /**
-     *  NETWORK FUNCTIONS
+     *  NETWORK / DATABASE FUNCTIONS
      */
-    private var _networkResponse = MutableLiveData<String>()
-    val networkResponse: LiveData<String>
-        get() = _networkResponse
+    // create database
+    private val database = getDatabase(application)
 
+    // create repository
+    private val asteroidRepository = AsteroidsRepository(database)
 
-    // function to submit network request
-    private fun queryNetworkResponse() {
+    // links to & observes asteroidListRepo
+    val asteroidList: LiveData<List<Asteroid>> = asteroidRepository.asteroidListRepo
 
-        AsteroidApi.retrofitService.getAsteroidsForTheWeek().enqueue(object: Callback<String> {
+    // query NASA API asteroid feed
+    private fun executeAsteroidQuery() {
 
-            // on success when fetching request
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        // coroutine scope to handle suspend function call
+        viewModelScope.launch(Dispatchers.IO) {
 
-                // assign response body to network value
-                _networkResponse.value = response.body()
-            }
-
-            // on failure when fetching request
-            override fun onFailure(call: Call<String>, t: Throwable) {
-
-                // assign response failure message to network value
-                _networkResponse.value = "Failure: ${t.message}"
-            }
-
-        })
+            // updates asteroid list live data via asteroidListRepo
+            asteroidRepository.refreshDemoDatabase()
+            asteroidRepository.refreshAsteroidsOfTheWeek()
+        }
     }
+
 
 
     /**
@@ -108,17 +95,8 @@ class ApplicationViewModel: ViewModel() {
     init {
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
 
-        // launch viewModel coroutine
-        viewModelScope.launch {
-
-            // convert Json String to Asteroid list asyncly from FakeDataRequest.kt file
-            val list = withContext(Dispatchers.IO) {
-                getListOfAsteroids(fakeDataRequest)
-            }
-
-            // update asteroid list
-            _asteroidList.postValue(list)
-        }
+        // refresh asteroidList on startup
+        executeAsteroidQuery()
     }
 
     override fun onCleared() {
@@ -128,21 +106,24 @@ class ApplicationViewModel: ViewModel() {
     }
 
 
-
     /**
      *  COMPANION OBJECT
      */
-    // used for creating viewModel using singleton method
+    // used for creating viewModel factory
     companion object {
 
-        // instance of this viewModel
-        private lateinit var instance: ApplicationViewModel
+        // viewmodel factory for passing application context for database
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                // Get the Application object from extras
+                val application = checkNotNull(extras[APPLICATION_KEY])
 
-        // create/assign this viewModel to instance
-        // return instance
-        fun getInstance(): ApplicationViewModel {
-            instance = if (::instance.isInitialized) instance else ApplicationViewModel()
-            return instance
+                return ApplicationViewModel(application) as T
+            }
         }
     }
 }

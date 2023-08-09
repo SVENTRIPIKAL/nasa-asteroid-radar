@@ -3,40 +3,31 @@ package com.sventripikal.nasa_asteroid_radar.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 @Serializable @Entity("asteroidTable")
 data class Asteroid(
-    @SerialName("id")
-        @PrimaryKey var id: String,
+    @PrimaryKey var id: String,
 
-    @SerialName("name")
-        @ColumnInfo("name") var name: String,
+    @ColumnInfo("name") var name: String,
 
-    @SerialName("absolute_magnitude_h")
-        @ColumnInfo("absolute_magnitude_h")
+    @ColumnInfo("absolute_magnitude_h")
             var absoluteMagnitude: Double,
 
-    @SerialName("estimated_diameter_max")
-        @ColumnInfo("estimated_diameter_max")
+    @ColumnInfo("estimated_diameter_max")
             var estimatedDiameterMax: Double,
 
-    @SerialName("is_potentially_hazardous_asteroid")
-        @ColumnInfo("is_potentially_hazardous_asteroid")
+    @ColumnInfo("is_potentially_hazardous_asteroid")
             var isPotentiallyHazardousAsteroid: Boolean,
 
-    @SerialName("close_approach_date")
-        @ColumnInfo("close_approach_date")
+    @ColumnInfo("close_approach_date")
             var closeApproachDate: String,
 
-    @SerialName("kilometers_per_second")
-        @ColumnInfo("kilometers_per_second")
+    @ColumnInfo("kilometers_per_second")
             var kilometersPerSecond: String,
 
-    @SerialName("astronomical")
-        @ColumnInfo("astronomical") var astronomical: String
+    @ColumnInfo("astronomical") var astronomical: String
 )
 /**                 EXAMPLE_ASTEROID
  * id:                                  "2465633" {not_displayed}

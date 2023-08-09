@@ -66,7 +66,7 @@ fun ImageView.setAsteroidImage(asteroid: Asteroid?) {
 }
 
 
-// sets the current date into a TextView
+// sets asteroid close approach date into a TextView
 @BindingAdapter("setCloseApproachDate")
 fun TextView.setCloseApproachDate(asteroid: Asteroid?) {
 
