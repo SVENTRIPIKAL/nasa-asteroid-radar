@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">nasa-asteroid-radar</string>
-    <string name="image_indicating_danger_state_of_asteroid">Image indicating danger state of asteroid</string>
     <string name="image_of_the_day">Image of the Day</string>
     <string name="asteroid_radar">Asteroid Radar</string>
     <string name="help_icon">Help Icon</string>
@@ -11,4 +10,6 @@
     <string name="estimated_diameter">Estimated Diameter:</string>
     <string name="relative_velocity">Relative Velocity:</string>
     <string name="distance_from_earth">Distance From Earth:</string>
+    <string name="potentially_hazardous">Potentially Hazardous</string>
+    <string name="not_hazardous">Not Hazardous</string>
 </resources>

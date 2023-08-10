@@ -77,7 +77,6 @@
                 android:layout_height="@dimen/height_50dp"
                 android:layout_marginStart="190dp"
                 android:layout_marginEnd="50dp"
-                android:contentDescription="@string/image_indicating_danger_state_of_asteroid"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +84,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:setHazardIcon="@{asteroid}"
                 tools:src="@drawable/round_sentiment_very_dissatisfied_24"
-                tools:tint="@color/red" />
+                tools:tint="@color/red"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

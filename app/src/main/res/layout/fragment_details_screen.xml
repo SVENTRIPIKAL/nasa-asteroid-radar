@@ -27,12 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_250dp"
             android:scaleType="centerCrop"
-            android:contentDescription="@{viewModel.detailsScreenAsteroid.name}"
             app:setAsteroidImage="@{viewModel.detailsScreenAsteroid}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@drawable/ic_launcher_background" />
+            tools:src="@drawable/ic_launcher_background"
+            tools:ignore="ContentDescription" />
 
 
         <!-- MaterialCardView for containing/stacking each asteroid detail -->

@@ -4,11 +4,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
-
 
 
 // loads image of the day into an ImageView
@@ -39,18 +37,20 @@ fun ImageView.setHazardIcon(asteroid: Asteroid?) {
 
     asteroid?.let {
 
-        when (it.isPotentiallyHazardousAsteroid) {
+       contentDescription = when (it.isPotentiallyHazardousAsteroid) {
 
             // hazardous - red
             true -> {
                 setImageResource(R.drawable.round_sentiment_very_dissatisfied_24)
                 setColorFilter(ContextCompat.getColor(context, R.color.red))
+                resources.getText(R.string.potentially_hazardous)
             }
 
             // non-hazardous - green
             false -> {
                 setImageResource(R.drawable.round_sentiment_very_satisfied_24)
                 setColorFilter(ContextCompat.getColor(context, R.color.green))
+                resources.getText(R.string.not_hazardous)
             }
         }
     }
@@ -58,21 +58,24 @@ fun ImageView.setHazardIcon(asteroid: Asteroid?) {
 
 
 // sets an asteroid image into an ImageView
+// assigns image content description
 @BindingAdapter("setAsteroidImage")
 fun ImageView.setAsteroidImage(asteroid: Asteroid?) {
 
     asteroid?.let {
 
-        when (it.isPotentiallyHazardousAsteroid) {
+        contentDescription = when (it.isPotentiallyHazardousAsteroid) {
 
             // hazardous
             true -> {
                 setImageResource(R.drawable.asteroid_hazardous)
+                resources.getText(R.string.potentially_hazardous)
             }
 
             // non-hazardous
             false -> {
                 setImageResource(R.drawable.asteroid_safe)
+                resources.getText(R.string.not_hazardous)
             }
         }
     }
