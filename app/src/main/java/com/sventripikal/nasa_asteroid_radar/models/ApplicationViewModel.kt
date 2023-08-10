@@ -76,18 +76,24 @@ class ApplicationViewModel(application: Application): ViewModel() {
     val asteroidList: LiveData<List<Asteroid>> = asteroidRepository.asteroidListRepo
 
     // links to & observes imageOfTheDayRepo
-    val imageOfTheDay: LiveData<ImageOfTheDay?> = asteroidRepository.imageOfTheDayRepo
+    val imageOfTheDay: LiveData<ImageOfTheDay> = asteroidRepository.imageOfTheDayRepo
 
     // query NASA API asteroid feed
-    private fun executeAsteroidQuery() {
+    private fun executeStartUpJobs() {
 
-        // coroutine scope to handle suspend function call
+        // coroutine scope to handle suspend function calls
         viewModelScope.launch(Dispatchers.IO) {
 
-            // updates asteroid list live data via asteroidListRepo
-            asteroidRepository.refreshImageOfTheDay()
-            asteroidRepository.refreshAsteroidsOfTheWeek()
-            asteroidRepository.refreshDemoDatabase()
+            // updates image of the day and asteroid list for the week
+            asteroidRepository.updateImageOfTheDay()
+            asteroidRepository.updateAsteroidsOfTheWeek()
+
+
+            // deletes all old files from database before today on separate thread
+            viewModelScope.launch(Dispatchers.IO) {
+                asteroidRepository.deleteOldImages()
+                asteroidRepository.deleteOldAsteroids()
+            }
         }
     }
 
@@ -99,8 +105,8 @@ class ApplicationViewModel(application: Application): ViewModel() {
     init {
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
 
-        // refresh asteroidList on startup
-        executeAsteroidQuery()
+        // refresh database and delete old files
+        executeStartUpJobs()
     }
 
     override fun onCleared() {

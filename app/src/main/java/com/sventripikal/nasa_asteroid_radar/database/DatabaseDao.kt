@@ -1,9 +1,10 @@
 package com.sventripikal.nasa_asteroid_radar.database
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -39,6 +40,14 @@ interface DatabaseDao {
     fun getAsteroidsOfTheWeek(startDate: String, endDate: String): LiveData<List<Asteroid>>
 
 
+    // deletes all asteroids from database before today
+    @Query("""
+        delete from asteroidTable
+        where close_approach_date < :startDate
+    """)
+    fun deleteAsteroidsBeforeToday(startDate: String)
+
+
     // inserts asteroid into database
    @Insert(onConflict = OnConflictStrategy.REPLACE)
    fun insertAsteroid(vararg asteroid: Asteroid)
@@ -52,11 +61,20 @@ interface DatabaseDao {
         select * from imageTable
         where date = :date
     """)
-    fun getImageOfTheDay(date: String): LiveData<ImageOfTheDay?>
+    fun getImageOfTheDay(date: String): LiveData<ImageOfTheDay>
+
+
+    // deletes all images from database before today
+    @Query("""
+        delete from imageTable
+        where date < :startDate
+    """)
+    fun deleteImagesBeforeToday(startDate: String)
+
 
     // inserts image into database
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertImage(vararg image: ImageOfTheDay?)
+    fun insertImage(vararg image: ImageOfTheDay)
 }
 
 
@@ -71,13 +89,13 @@ abstract class AsteroidDatabase: RoomDatabase() {
 private lateinit var INSTANCE: AsteroidDatabase
 
 // returns singleton database instance
-fun getDatabase(application: Application): AsteroidDatabase {
+fun getDatabase(context: Context): AsteroidDatabase {
 
     synchronized(AsteroidDatabase::class.java) {
 
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
-                application.applicationContext,
+                context.applicationContext,
                 AsteroidDatabase::class.java,
                 "asteroids"
             ).build()

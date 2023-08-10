@@ -63,7 +63,7 @@ class DetailsScreen : Fragment() {
             MaterialAlertDialogBuilder(requireContext(), R.style.DialogTheme)
                 .setMessage("The astronomical unit (au) is a unit of length, roughly the distance from " +
                         "Earth to the Sun, and equal to about 150 million kilometers (93 million miles).")
-                .setPositiveButton("Accept") { dialog, _ ->
+                .setPositiveButton("Dismiss") { dialog, _ ->
                     dialog.dismiss()
                 }
                 .show()

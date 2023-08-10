@@ -31,13 +31,13 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
                                                         )
 
     // image of the day live data pulled from database for display - pulls today only
-    val imageOfTheDayRepo: LiveData<ImageOfTheDay?> = database.databaseDao
+    val imageOfTheDayRepo: LiveData<ImageOfTheDay> = database.databaseDao
                                                         .getImageOfTheDay(
                                                             startEndDateApiKey.first
                                                         )
 
     // coroutine function for updating database for the week
-    suspend fun refreshImageOfTheDay() {
+    suspend fun updateImageOfTheDay() {
 
         // runs work in background thread
         withContext(Dispatchers.IO) {
@@ -51,15 +51,19 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
                 // converts response String to Image of the Day
                 val imageOfTheDay: ImageOfTheDay? = extractImageOfTheDay(networkQueryString)
 
-                // inserts into database
-                database.databaseDao.insertImage(imageOfTheDay)
+                // save non-null objects to database
+                if (imageOfTheDay != null) {
 
-                timber(TAG, "[$this] === ${imageOfTheDay?.title} added", Priority.DEBUG)
+                    // inserts into database
+                    database.databaseDao.insertImage(imageOfTheDay)
 
-                // success message
-                val message = "Success: ${imageOfTheDay?.title} received/cached"
+                    // success message
+                    val message = "Success: ${imageOfTheDay.title} received/cached"
 
-                timber(TAG, "[$this] === $message", Priority.VERBOSE)
+                    timber(TAG, "[$this] === $message", Priority.DEBUG)
+
+                }
+                else timber(TAG, "[$this] === Non-Image Discarded", Priority.VERBOSE)
 
             } catch (t: Throwable) {
 
@@ -73,7 +77,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
 
 
     // coroutine function for updating database for the week
-    suspend fun refreshAsteroidsOfTheWeek() {
+    suspend fun updateAsteroidsOfTheWeek() {
 
         // runs work in background thread
         withContext(Dispatchers.IO) {
@@ -112,9 +116,61 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
         }
     }
 
+    // delete old images from database
+    suspend fun deleteOldImages() {
+
+        // runs work in background thread
+        withContext(Dispatchers.IO) {
+
+            try {
+
+                // delete images before today
+                database.databaseDao.deleteImagesBeforeToday(startEndDateApiKey.first)
+
+                // success message
+                val message = "Success: images before ${startEndDateApiKey.first} deleted"
+
+                timber(TAG, "[$this] === $message", Priority.VERBOSE)
+
+            } catch (t: Throwable) {
+
+                // failure message
+                val message = "Failure: ${t.message}"
+
+                timber(TAG, "[$this] === $message", Priority.ERROR)
+            }
+        }
+    }
+
+    // delete old asteroids from database
+    suspend fun deleteOldAsteroids() {
+
+        // runs work in background thread
+        withContext(Dispatchers.IO) {
+
+            try {
+
+                // delete asteroids before today
+                database.databaseDao.deleteAsteroidsBeforeToday(startEndDateApiKey.first)
+
+                // success message
+                val message = "Success: asteroids before ${startEndDateApiKey.first} deleted"
+
+                timber(TAG, "[$this] === $message", Priority.VERBOSE)
+
+            } catch (t: Throwable) {
+
+                // failure message
+                val message = "Failure: ${t.message}"
+
+                timber(TAG, "[$this] === $message", Priority.ERROR)
+            }
+        }
+    }
+
 
     // coroutine function for updating database with DEMO objects
-    suspend fun refreshDemoDatabase() {
+    suspend fun addDemoQueryAsteroids() {
 
         // runs work in background thread
         withContext(Dispatchers.IO) {
