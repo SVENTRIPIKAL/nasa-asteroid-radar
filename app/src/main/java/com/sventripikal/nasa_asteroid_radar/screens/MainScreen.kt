@@ -34,7 +34,7 @@ class MainScreen : Fragment() {
     private lateinit var newRecyclerViewAdapter: RecyclerViewAdapter    // recyclerViewAdapter
 
 
-    // shared viewModel-parent
+    // shared viewModel
     private val viewModel: ApplicationViewModel by activityViewModels{ ApplicationViewModel.Factory }
 
 
@@ -56,7 +56,7 @@ class MainScreen : Fragment() {
         // adapter receives ItemClickListener class to handle click events
         newRecyclerViewAdapter = RecyclerViewAdapter( ItemClickListener {
 
-                // on item click run functions & pass clicked item
+                // on item click run functions & pass clicked items
                 asteroid ->
                     viewModel.updateDetailsScreenAsteroid(asteroid)
                     viewModel.itemClicked(asteroid.id)
@@ -82,6 +82,7 @@ class MainScreen : Fragment() {
         // lifecycle owner
         binding.lifecycleOwner = requireActivity()
 
+        // bind viewModel instance
         binding.viewModel = viewModel
 
         // assign recycler view

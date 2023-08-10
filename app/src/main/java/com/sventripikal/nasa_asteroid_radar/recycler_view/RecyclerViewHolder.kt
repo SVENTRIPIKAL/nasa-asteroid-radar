@@ -3,7 +3,6 @@ package com.sventripikal.nasa_asteroid_radar.recycler_view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.RecyclerListItemBinding
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 
@@ -18,7 +17,7 @@ class RecyclerViewHolder private constructor(
     // bind ItemClickListener
     fun bind(asteroid: Asteroid, clickListener: ItemClickListener) {
 
-        // associate data binding variables with objects/classes
+        // associate data binding variables
         binding.asteroid = asteroid
         binding.itemClickListener = clickListener
         binding.executePendingBindings()

@@ -49,7 +49,7 @@ class TimberInit: Application() {
             .build()
 
 
-        // worker update interval - once a day
+        // worker update interval - once a day with added constraints
         val refreshInterval =
             PeriodicWorkRequestBuilder<DataUpdateWorker>(1, TimeUnit.DAYS)
                 .setConstraints(constraints)

@@ -1,6 +1,5 @@
 package com.sventripikal.nasa_asteroid_radar
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +13,6 @@ import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_STOP
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
 import com.sventripikal.nasa_asteroid_radar.utils.TAG
 import com.sventripikal.nasa_asteroid_radar.utils.timber
-import kotlinx.coroutines.CoroutineScope
 
 
 class MainActivity : AppCompatActivity() {

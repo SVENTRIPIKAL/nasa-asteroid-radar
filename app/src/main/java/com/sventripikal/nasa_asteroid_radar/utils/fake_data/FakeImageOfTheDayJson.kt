@@ -1,4 +1,4 @@
-package com.sventripikal.nasa_asteroid_radar.utils
+package com.sventripikal.nasa_asteroid_radar.utils.fake_data
 
 
 

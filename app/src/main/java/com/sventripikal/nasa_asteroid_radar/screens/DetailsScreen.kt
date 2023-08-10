@@ -24,10 +24,8 @@ import com.sventripikal.nasa_asteroid_radar.utils.timber
 // details screen fragment
 class DetailsScreen : Fragment() {
 
-
     // binding for layout
     private lateinit var binding: FragmentDetailsScreenBinding
-
 
     // shared viewModel
     private val viewModel: ApplicationViewModel by activityViewModels{ ApplicationViewModel.Factory }
@@ -44,27 +42,18 @@ class DetailsScreen : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentDetailsScreenBinding.inflate(inflater)
 
-        // lifecycle owner
-        binding.lifecycleOwner = requireActivity()
-
-        // bind viewModel instance to data
-        binding.viewModel = viewModel
+        // set data bindings
+        setBindings()
 
         // add clickListener for Help Icon
         binding.absoluteMagnitudeHelpIcon.setOnClickListener {
 
-
-            /**
-             * TO DO:
-             *      +_scrim needs to be fixed / background does not dim
-             *      +_dialog needs to be customized
-             */
             // basic material dialog
             MaterialAlertDialogBuilder(requireContext(), R.style.DialogTheme)
-                .setMessage("The astronomical unit (au) is a unit of length, roughly the distance from " +
-                        "Earth to the Sun, and equal to about 150 million kilometers (93 million miles).")
-                .setPositiveButton("Dismiss") { dialog, _ ->
-                    dialog.dismiss()
+                .setMessage(getString(R.string.dialog_message))
+                .setPositiveButton(getString(R.string.dialog_dismiss_text)) { dialog, _ ->
+
+                    dialog.dismiss()    // dismiss dialog on click
                 }
                 .show()
         }
@@ -73,6 +62,16 @@ class DetailsScreen : Fragment() {
         return binding.root
     }
 
+
+    // set data bindings
+    private fun setBindings() {
+
+        // lifecycle owner
+        binding.lifecycleOwner = requireActivity()
+
+        // bind viewModel instance
+        binding.viewModel = viewModel
+    }
 
 
     /**

@@ -4,4 +4,11 @@
     <string name="image_of_the_day">Image of the Day</string>
     <string name="asteroid_radar">Asteroid Radar</string>
     <string name="help_icon">Help Icon</string>
+    <string name="dialog_message">The astronomical unit (au) is a unit of length, roughly the distance from Earth to the Sun, and equal to about 150 million kilometers (93 million miles).</string>
+    <string name="dialog_dismiss_text">Dismiss</string>
+    <string name="close_approach_date">Close Approach Date:</string>
+    <string name="absolute_magnitude">Absolute Magnitude:</string>
+    <string name="estimated_diameter">Estimated Diameter:</string>
+    <string name="relative_velocity">Relative Velocity:</string>
+    <string name="distance_from_earth">Distance From Earth:</string>
 </resources>

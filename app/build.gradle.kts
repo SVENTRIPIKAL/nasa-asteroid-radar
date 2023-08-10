@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 
     id ("androidx.navigation.safeargs.kotlin")      // safeArgs
-    id ("kotlin-parcelize")                         // parcelize
-    id ("com.google.devtools.ksp")                  // ksp for Glide
     id ("kotlin-kapt")                              // kapt for Room
     id ("kotlinx-serialization")                    // kotlinx-serializer
 }

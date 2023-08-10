@@ -78,23 +78,30 @@ class ApplicationViewModel(application: Application): ViewModel() {
     // links to & observes imageOfTheDayRepo
     val imageOfTheDay: LiveData<ImageOfTheDay> = asteroidRepository.imageOfTheDayRepo
 
-    // query NASA API asteroid feed
+    // update asteroid feed & delete old files
     private fun executeStartUpJobs() {
 
-        // coroutine scope to handle suspend function calls
+        // run block in background thread
         viewModelScope.launch(Dispatchers.IO) {
 
             // updates image of the day and asteroid list for the week
-            asteroidRepository.updateImageOfTheDay()
-            asteroidRepository.updateAsteroidsOfTheWeek()
+            updateDatabase()
 
-
-            // deletes all old files from database before today on separate thread
-            viewModelScope.launch(Dispatchers.IO) {
-                asteroidRepository.deleteOldImages()
-                asteroidRepository.deleteOldAsteroids()
-            }
+            // deletes old files from database before today
+            deleteOldFiles()
         }
+    }
+
+    // update database with new content
+    private suspend fun updateDatabase() {
+        asteroidRepository.updateImageOfTheDay()
+        asteroidRepository.updateAsteroidsOfTheWeek()
+    }
+
+    // delete elder files before today
+    private suspend fun deleteOldFiles() {
+        asteroidRepository.deleteOldImages()
+        asteroidRepository.deleteOldAsteroids()
     }
 
 
@@ -105,7 +112,7 @@ class ApplicationViewModel(application: Application): ViewModel() {
     init {
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
 
-        // refresh database and delete old files
+        // update database and delete old files
         executeStartUpJobs()
     }
 
@@ -114,6 +121,7 @@ class ApplicationViewModel(application: Application): ViewModel() {
 
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_DESTROY", Priority.ERROR)
     }
+
 
 
     /**

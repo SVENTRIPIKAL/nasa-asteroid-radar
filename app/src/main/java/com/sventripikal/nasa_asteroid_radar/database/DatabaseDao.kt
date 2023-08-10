@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Database
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -30,7 +29,7 @@ interface DatabaseDao {
     fun getAll(): LiveData<List<Asteroid>>
 
 
-    // retrieves asteroids for week ahead from database sorted ascending
+    // retrieves asteroids for the week from database sorted ascending
     @Query("""
         select * from asteroidTable
         where close_approach_date

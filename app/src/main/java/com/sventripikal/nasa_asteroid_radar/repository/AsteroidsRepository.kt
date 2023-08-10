@@ -36,7 +36,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
                                                             startEndDateApiKey.first
                                                         )
 
-    // coroutine function for updating database for the week
+    // function for updating image of the day
     suspend fun updateImageOfTheDay() {
 
         // runs work in background thread
@@ -44,17 +44,17 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
 
             try {
 
-                // makes query call using api_key to NASA API
+                // send get request to NASA API
                 val networkQueryString = AsteroidApi.retrofitService
                                                         .getImageOfTheDay(startEndDateApiKey.third)
 
-                // converts response String to Image of the Day
+                // convert response String to Image of the Day
                 val imageOfTheDay: ImageOfTheDay? = extractImageOfTheDay(networkQueryString)
 
                 // save non-null objects to database
                 if (imageOfTheDay != null) {
 
-                    // inserts into database
+                    // insert image into database
                     database.databaseDao.insertImage(imageOfTheDay)
 
                     // success message
@@ -76,7 +76,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
     }
 
 
-    // coroutine function for updating database for the week
+    // function for updating asteroids for the week
     suspend fun updateAsteroidsOfTheWeek() {
 
         // runs work in background thread
@@ -84,18 +84,19 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
 
             try {
 
-                // makes query call using dates/api_key to NASA API
+                // send get request to NASA API
                 val networkQueryString = AsteroidApi.retrofitService.getAsteroidFeedForWeek(
                     startDate = startEndDateApiKey.first,
                     endDate = startEndDateApiKey.second,
                     apiKey = startEndDateApiKey.third
                 )
 
-                // converts response String to Asteroid objects
+                // convert response String to Asteroid list
                 val list = convertToListOfAsteroids(networkQueryString)
 
-                // updates database
+                // update database with asteroids
                 list.forEach {
+
                     database.databaseDao.insertAsteroid(it)
 
                     timber(TAG, "[$this] === ${it.name} added", Priority.DEBUG)
@@ -115,6 +116,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
             }
         }
     }
+
 
     // delete old images from database
     suspend fun deleteOldImages() {
@@ -141,6 +143,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
             }
         }
     }
+
 
     // delete old asteroids from database
     suspend fun deleteOldAsteroids() {
@@ -169,7 +172,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
     }
 
 
-    // coroutine function for updating database with DEMO objects
+    // function for adding Demo asteroids list to database
     suspend fun addDemoQueryAsteroids() {
 
         // runs work in background thread
@@ -177,21 +180,22 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
 
             try {
 
-                // retreives demo dates & demo key
+                // retreive demo dates & demo key
                 val demoStringTriple = getDemoQueryDemoKey()
 
-                // makes query call using demo dates/api_key to NASA API
+                // send get request to NASA API
                 val demoNetworkQueryString = AsteroidApi.retrofitService.getAsteroidFeedForWeek(
                     startDate = demoStringTriple.first,
                     endDate = demoStringTriple.second,
                     apiKey = demoStringTriple.third
                 )
 
-                // converts response String to Asteroid objects
+                // convert response String to Asteroid list
                 val list = convertToListOfAsteroids(demoNetworkQueryString)
 
-                // updates database
+                // update database
                 list.forEach {
+
                     database.databaseDao.insertAsteroid(it)
 
                     timber(TAG, "[$this] === ${it.name} DEMO added", Priority.DEBUG)

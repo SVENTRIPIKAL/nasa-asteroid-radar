@@ -4,6 +4,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
@@ -14,7 +15,10 @@ import com.sventripikal.nasa_asteroid_radar.models.Asteroid
 @BindingAdapter("setImageOfTheDay")
 fun ImageView.setImageOfTheDay(url: String?) {
 
-    if (url != null)  Picasso.get().load(url).into(this)
+    if (url != null)  Picasso.get().load(url)
+                                    .placeholder(R.drawable.loading_animation)
+                                    .error(R.drawable.ic_broken_image)
+                                    .into(this)
 }
 
 

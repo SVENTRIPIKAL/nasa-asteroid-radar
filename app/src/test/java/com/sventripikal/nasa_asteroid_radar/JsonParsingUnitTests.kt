@@ -1,7 +1,7 @@
 package com.sventripikal.nasa_asteroid_radar
 
 import com.sventripikal.nasa_asteroid_radar.models.Asteroid
-import com.sventripikal.nasa_asteroid_radar.utils.fakeDataRequest
+import com.sventripikal.nasa_asteroid_radar.utils.fake_data.fakeDataRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject

@@ -1,7 +1,7 @@
 package com.sventripikal.nasa_asteroid_radar
 
 import com.sventripikal.nasa_asteroid_radar.models.ImageOfTheDay
-import com.sventripikal.nasa_asteroid_radar.utils.fakeImageOfTheDayJson
+import com.sventripikal.nasa_asteroid_radar.utils.fake_data.fakeImageOfTheDayJson
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
