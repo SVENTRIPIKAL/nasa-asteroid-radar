@@ -21,30 +21,41 @@ interface DatabaseDao {
     /**
      * ASTEROID TABLE
      */
-    // retrieves all from database sorted ascending
+    // retrieves all from database sorted decending
     @Query("""
         select * from asteroidTable
+        order by close_approach_date desc
+    """)
+    fun getAllSavedAsteroids(): LiveData<List<Asteroid>>
+
+
+    // get todays asteroids from database sorted ascending
+    @Query("""
+        select * from asteroidTable
+        where close_approach_date = :todaysDate
         order by close_approach_date asc
     """)
-    fun getAll(): LiveData<List<Asteroid>>
+    fun getTodaysAsteroids(todaysDate: String): LiveData<List<Asteroid>>
 
 
-    // retrieves asteroids for the week from database sorted ascending
+    // retrieves asteroids for the week from database sorted descending
     @Query("""
         select * from asteroidTable
         where close_approach_date
         between :startDate and :endDate
-        order by close_approach_date asc
+        order by close_approach_date desc
     """)
-    fun getAsteroidsOfTheWeek(startDate: String, endDate: String): LiveData<List<Asteroid>>
+    fun getThisWeeksAsteroids(startDate: String, endDate: String): LiveData<List<Asteroid>>
 
 
-    // deletes all asteroids from database before today
-    @Query("""
+    // deletes all asteroids from database more than a week old
+    @Query(
+        """
         delete from asteroidTable
-        where close_approach_date < :startDate
-    """)
-    fun deleteAsteroidsBeforeToday(startDate: String)
+        where close_approach_date < :weekPriorDate
+    """
+    )
+    fun deleteWeekOldAsteroids(weekPriorDate: String)
 
 
     // inserts asteroid into database
@@ -64,11 +75,13 @@ interface DatabaseDao {
 
 
     // deletes all images from database before today
-    @Query("""
+    @Query(
+        """
         delete from imageTable
-        where date < :startDate
-    """)
-    fun deleteImagesBeforeToday(startDate: String)
+        where date < :todaysDate
+    """
+    )
+    fun deleteImagesBeforeToday(todaysDate: String)
 
 
     // inserts image into database

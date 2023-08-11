@@ -12,4 +12,7 @@
     <string name="distance_from_earth">Distance From Earth:</string>
     <string name="potentially_hazardous">Potentially Hazardous</string>
     <string name="not_hazardous">Not Hazardous</string>
+    <string name="view_this_week_s_asteroids">View this week\'s asteroids</string>
+    <string name="view_today_s_asteroids">View today\'s asteroids</string>
+    <string name="view_saved_asteroids">View saved asteroids</string>
 </resources>

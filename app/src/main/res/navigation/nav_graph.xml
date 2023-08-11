@@ -10,7 +10,6 @@
     <fragment
         android:id="@+id/mainScreen"
         android:name="com.sventripikal.nasa_asteroid_radar.screens.MainScreen"
-        android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
 
         <!-- action navigate to details screen -->
@@ -24,7 +23,6 @@
     <fragment
         android:id="@+id/detailsScreen"
         android:name="com.sventripikal.nasa_asteroid_radar.screens.DetailsScreen"
-        android:label="fragment_details_screen"
         tools:layout="@layout/fragment_details_screen" />
 
 </navigation>

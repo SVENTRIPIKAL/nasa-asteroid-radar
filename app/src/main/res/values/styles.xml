@@ -31,6 +31,7 @@
     </style>
     <style name="detailItemSupportText" parent="detailItemBaseStyle">
         <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">@dimen/textSize_16sp</item>
         <item name="android:layout_marginBottom">@dimen/margin_14dp</item>
     </style>

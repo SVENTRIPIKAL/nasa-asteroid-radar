@@ -2,6 +2,8 @@ package com.sventripikal.nasa_asteroid_radar.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.sventripikal.nasa_asteroid_radar.R
 import com.sventripikal.nasa_asteroid_radar.databinding.FragmentMainScreenBinding
 import com.sventripikal.nasa_asteroid_radar.models.ApplicationViewModel
 import com.sventripikal.nasa_asteroid_radar.recycler_view.ItemClickListener
@@ -52,6 +55,10 @@ class MainScreen : Fragment() {
         binding = FragmentMainScreenBinding.inflate(inflater)
 
 
+        // add overflow menu to fragment
+        setHasOptionsMenu(true)
+
+
         // create adapter
         // adapter receives ItemClickListener class to handle click events
         newRecyclerViewAdapter = RecyclerViewAdapter( ItemClickListener {
@@ -73,6 +80,12 @@ class MainScreen : Fragment() {
 
         // return inflated layout
         return binding.root
+    }
+
+
+    // inflate options menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.top_app_bar_menu, menu)
     }
 
 
@@ -126,7 +139,6 @@ class MainScreen : Fragment() {
             })
         }
     }
-
 
 
     /**

@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.sventripikal.nasa_asteroid_radar.database.getDatabase
 import com.sventripikal.nasa_asteroid_radar.repository.AsteroidsRepository
+import com.sventripikal.nasa_asteroid_radar.utils.FilterBy
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_CREATE
 import com.sventripikal.nasa_asteroid_radar.utils.MESSAGE_DESTROY
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
@@ -72,8 +74,13 @@ class ApplicationViewModel(application: Application): ViewModel() {
     // create repository
     private val asteroidRepository = AsteroidsRepository(database)
 
-    // links to & observes asteroidListRepo
-    val asteroidList: LiveData<List<Asteroid>> = asteroidRepository.asteroidListRepo
+    // mutableLiveData enum filter used to update/assign asteroidList livedata
+    private val databaseListFilter = MutableLiveData<FilterBy>()
+
+    // live data list observed by RecyclerViewAdapter & linked to databaseListFilter via switchMap
+    val asteroidList: LiveData<List<Asteroid>> = databaseListFilter.switchMap {
+        filter -> asteroidRepository.getList(filter)
+    }
 
     // links to & observes imageOfTheDayRepo
     val imageOfTheDay: LiveData<ImageOfTheDay> = asteroidRepository.imageOfTheDayRepo
@@ -90,7 +97,27 @@ class ApplicationViewModel(application: Application): ViewModel() {
             // deletes old files from database before today
             deleteOldFiles()
         }
+
+        // show today
+        showToday()
     }
+
+    // assign week filter
+    fun showWeek() {
+        databaseListFilter.value = FilterBy.WEEK
+    }
+
+    // assign today filter
+    fun showToday() {
+        databaseListFilter.value = FilterBy.TODAY
+    }
+
+    // assign all filter
+    fun showAll() {
+        databaseListFilter.value = FilterBy.ALL
+    }
+
+
 
     // update database with new content
     private suspend fun updateDatabase() {
@@ -101,7 +128,7 @@ class ApplicationViewModel(application: Application): ViewModel() {
     // delete elder files before today
     private suspend fun deleteOldFiles() {
         asteroidRepository.deleteOldImages()
-        asteroidRepository.deleteOldAsteroids()
+        asteroidRepository.deleteWeekOldAsteroids()
     }
 
 
@@ -112,7 +139,7 @@ class ApplicationViewModel(application: Application): ViewModel() {
     init {
         timber(TAG, "[${this.javaClass.simpleName}] === $MESSAGE_CREATE", Priority.VERBOSE)
 
-        // update database and delete old files
+        // update database and delete old files & show today
         executeStartUpJobs()
     }
 

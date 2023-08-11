@@ -91,6 +91,22 @@ fun getTodayWeekQueryApiKey(): Triple<String, String, String> {
     return Triple(first = today, second = weekFromToday, third = API_KEY)
 }
 
+// return date of 1 week before
+fun getWeekPriorDate(): String {
+
+    // create calendar instance
+    val calendar = Calendar.getInstance()
+
+    // create formatter with date string pattern
+    val formatter = SimpleDateFormat(DATE_PATTERN_STRING, Locale.getDefault())
+
+    // update calendar - minus 7 days to current calendar time
+    calendar.add(Calendar.DAY_OF_YEAR, -7)
+
+    // return prior week date
+    return formatter.format( calendar.time ).toString()
+}
+
 
 // returns Triple of demo start date, end date, and DEMO_KEY
 fun getDemoQueryDemoKey(): Triple<String, String, String> {

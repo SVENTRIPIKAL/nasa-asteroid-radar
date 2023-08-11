@@ -9,6 +9,8 @@ import com.sventripikal.nasa_asteroid_radar.network.convertToListOfAsteroids
 import com.sventripikal.nasa_asteroid_radar.network.extractImageOfTheDay
 import com.sventripikal.nasa_asteroid_radar.network.getDemoQueryDemoKey
 import com.sventripikal.nasa_asteroid_radar.network.getTodayWeekQueryApiKey
+import com.sventripikal.nasa_asteroid_radar.network.getWeekPriorDate
+import com.sventripikal.nasa_asteroid_radar.utils.FilterBy
 import com.sventripikal.nasa_asteroid_radar.utils.Priority
 import com.sventripikal.nasa_asteroid_radar.utils.TAG
 import com.sventripikal.nasa_asteroid_radar.utils.timber
@@ -23,12 +25,6 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
     // Triple startDate / endDate / apiKey used to query asteroids for the week
     private val startEndDateApiKey = getTodayWeekQueryApiKey()
 
-    // asteroid live data list pulled from database for display - pulls this week only
-    val asteroidListRepo: LiveData<List<Asteroid>> = database.databaseDao
-                                                        .getAsteroidsOfTheWeek(
-                                                            startEndDateApiKey.first,
-                                                            startEndDateApiKey.second
-                                                        )
 
     // image of the day live data pulled from database for display - pulls today only
     val imageOfTheDayRepo: LiveData<ImageOfTheDay> = database.databaseDao
@@ -36,7 +32,30 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
                                                             startEndDateApiKey.first
                                                         )
 
-    // function for updating image of the day
+
+    // returns a list of live data from database according to filter type
+    fun getList(filter: FilterBy): LiveData<List<Asteroid>> {
+
+        return when (filter) {
+            FilterBy.WEEK -> {
+                // asteroid live data list pulled from database - pulls this week only
+                database.databaseDao.getThisWeeksAsteroids(
+                    startEndDateApiKey.first,
+                    startEndDateApiKey.second
+                )
+            }
+            FilterBy.TODAY -> {
+                // asteroid live data list pulled from database - pulls today only
+                database.databaseDao
+                    .getTodaysAsteroids(startEndDateApiKey.first)
+            }
+            // asteroid live data list pulled from database - pulls all
+            FilterBy.ALL -> database.databaseDao.getAllSavedAsteroids()
+        }
+    }
+
+
+    // network query function for updating image of the day
     suspend fun updateImageOfTheDay() {
 
         // runs work in background thread
@@ -76,7 +95,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
     }
 
 
-    // function for updating asteroids for the week
+    // network query function for updating asteroids for the week
     suspend fun updateAsteroidsOfTheWeek() {
 
         // runs work in background thread
@@ -118,7 +137,7 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
     }
 
 
-    // delete old images from database
+    // deletes old images from database
     suspend fun deleteOldImages() {
 
         // runs work in background thread
@@ -145,19 +164,22 @@ class AsteroidsRepository(private val database: AsteroidDatabase) {
     }
 
 
-    // delete old asteroids from database
-    suspend fun deleteOldAsteroids() {
+    // deletes old asteroids from database [more than a week old]
+    suspend fun deleteWeekOldAsteroids() {
 
         // runs work in background thread
         withContext(Dispatchers.IO) {
 
             try {
 
-                // delete asteroids before today
-                database.databaseDao.deleteAsteroidsBeforeToday(startEndDateApiKey.first)
+                // get week prior date
+                val weekPrior = getWeekPriorDate()
+
+                // delete asteroids that are more than a week old from today
+                database.databaseDao.deleteWeekOldAsteroids(weekPrior)
 
                 // success message
-                val message = "Success: asteroids before ${startEndDateApiKey.first} deleted"
+                val message = "Success: asteroids older than $weekPrior deleted"
 
                 timber(TAG, "[$this] === $message", Priority.VERBOSE)
 

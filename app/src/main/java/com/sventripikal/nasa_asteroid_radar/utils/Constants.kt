@@ -30,3 +30,10 @@ fun timber(tag: String, message: String, priority: Priority) {
         Priority.INFO -> Timber.tag(tag).i(message)
     }
 }
+
+
+/**
+ *  VIEWMODEL / ASTEROID_REPOSITORY
+ */
+// filtering options for updating asteroidList
+enum class FilterBy { WEEK, TODAY, ALL }

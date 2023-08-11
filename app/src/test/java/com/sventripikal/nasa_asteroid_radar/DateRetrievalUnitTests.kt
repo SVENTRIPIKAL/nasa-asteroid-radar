@@ -51,6 +51,22 @@ fun getTodayPlusOneWeek(): Pair<String, String> {
     return Pair(first = today, second = weekFromToday)
 }
 
+// returns pair of todays date and week from today
+fun getTodayMinusOneWeek(): String {
+
+    // create calendar instance
+    val calendar = Calendar.getInstance()
+
+    // create formatter with date string pattern
+    val formatter = SimpleDateFormat(DATE_PATTERN_STRING, Locale.getDefault())
+
+    // update calendar - add 7 days to current calendar time
+    calendar.add(Calendar.DAY_OF_YEAR, -7)
+
+    // return pair of formatted date strings
+    return formatter.format( calendar.time ).toString()
+}
+
 
 // unit tests for date functions
 class DateRetrievalUnitTests {
@@ -63,6 +79,17 @@ class DateRetrievalUnitTests {
 
         val expected = Pair("2023-08-07","2023-08-14")
         val actual = getTodayPlusOneWeek()
+
+        println("EXPECTED: $expected      ACTUAL: $actual")
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun when_gettingPastWeek_should_returnWeekBefore() {
+
+        val expected = "2023-08-03"
+        val actual = getTodayMinusOneWeek()
 
         println("EXPECTED: $expected      ACTUAL: $actual")
 

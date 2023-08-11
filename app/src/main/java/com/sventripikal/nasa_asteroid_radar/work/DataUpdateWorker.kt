@@ -48,7 +48,7 @@ class DataUpdateWorker(appContext: Context, params: WorkerParameters):
     // delete older images / asteroids from database
     private suspend fun deleteOldEntities() {
         repository.deleteOldImages()
-        repository.deleteOldAsteroids()
+        repository.deleteWeekOldAsteroids()
     }
 
 
