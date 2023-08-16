@@ -1,5 +1,5 @@
 # Nasa-Asteroid-Radar
-## _daily cached asteroid viewer_
+## _daily cached asteroid viewer application_
 
 an android application demonstrating the use of: 
 
