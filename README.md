@@ -7,7 +7,7 @@
 
 an android application demonstrating the use of: 
 
-- Internet data retrieval using Retrofit get requests to [NASA Open APIs](https://api.nasa.gov/)
+- Internet data retrieval using Retrofit get requests to [NASA Open APIs](https://api.nasa.gov/)  _{user api-key required}_
 - Data Persistence and offline caching using Room Database
 - JSON data response parsing with Kotlinx.serialization
 - Coroutine Image Loading with Picasso
