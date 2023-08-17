@@ -36,7 +36,7 @@ an android application demonstrating the use of:
 - [Retrofit](https://square.github.io/retrofit/) - a type-safe HTTP client for Android and Java
 - [Picasso](https://square.github.io/picasso/) - powerful image downloading and caching library for Android
 - [Kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization/) - kotlin multiplatform / multi-format serialization
-- [Scalars Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/scalars) - converter which supports converting strings and primitives to text/plain bodies
+- [Scalars Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/scalars) - converter for strings and primitives to text/plain bodies
 - [Kotlin Coroutines] - asynchronous programming
 - [Androidx Material Design] - material design for android
 - [Androidx ViewModel] - business logic or screen level state holder
