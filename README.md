@@ -38,6 +38,7 @@ an android application demonstrating the use of:
 - [Kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization/) - kotlin multiplatform / multi-format serialization
 - [Scalars Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/scalars) - converter which supports converting strings and primitives to text/plain bodies
 - [Kotlin Coroutines] - asynchronous programming
+- [Androidx Material Design] - material design for android
 - [Androidx ViewModel] - business logic or screen level state holder
 - [Androidx Room] – persistence library providing database access
 - [Androidx RecyclerView] - recyclable UI for displaying large data sets
