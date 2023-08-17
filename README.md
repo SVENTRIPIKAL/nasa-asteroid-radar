@@ -40,6 +40,6 @@ an android application demonstrating the use of:
 - [Kotlin Coroutines] - asynchronous programming
 - [Androidx ViewModel] - business logic or screen level state holder
 - [Androidx Room] – persistence library providing database access
-- [Androidx RecyclerView] - recycleable UI for displaying large data sets
+- [Androidx RecyclerView] - recyclable UI for displaying large data sets
 - [Androidx WorkManager] - deferrable, reliable, asynchronous tasking
 - [Androidx Navigation] - framework for navigating across application destinations
