@@ -37,6 +37,7 @@ an android application demonstrating the use of:
 - [Picasso](https://square.github.io/picasso/) - powerful image downloading and caching library for Android
 - [Kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization/) - kotlin multiplatform / multi-format serialization
 - [Scalars Converter](https://github.com/square/retrofit/tree/master/retrofit-converters/scalars) - converter for strings and primitives to text/plain bodies
+- [Timber](https://github.com/JakeWharton/timber) – an extensible API on top of Android's normal Log class
 - [Kotlin Coroutines] - asynchronous programming
 - [Androidx Material Design] - material design for android
 - [Androidx ViewModel] - business logic or screen level state holder
