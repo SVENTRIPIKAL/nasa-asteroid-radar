@@ -21,8 +21,8 @@ an android application demonstrating the use of:
 
 ## Features
 
-- NASA's Astronomoy Picture of the Day (APOD)
-- NASA's Nearth Earth Object Web Service (Asteroids NeoWs)
+- NASA's Astronomy Picture of the Day (APOD)
+- NASA's Near Earth Object Web Service (Asteroids NeoWs)
 - Asteroid data updated/cached daily and stored for up to 1-week
 - Asteroid database list filtering by today, this week, or all
 - An internet connection is not needed to view cached data
